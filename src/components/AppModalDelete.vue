@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineEmits(['onSubmit'])
+const emit = defineEmits(['onSubmit'])
 </script>
 
 <template>
@@ -27,7 +27,7 @@ defineEmits(['onSubmit'])
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="$emit('onSubmit')">Yes</button>
+          <button type="button" class="btn btn-primary" @click="emit('onSubmit')">Yes</button>
         </div>
       </div>
     </div>

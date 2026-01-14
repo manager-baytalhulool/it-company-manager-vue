@@ -2,8 +2,16 @@
 import AppDataTable from '@/components/AppDataTable.vue'
 import { useDataTable } from '@/composables/useDataTable'
 import api from '@/plugins/axios'
+import { Modal } from 'bootstrap'
 import type { AccountIndex } from '@/types/Account'
 import type { IColumn, PaginationParams } from '@/types/Pagination'
+import AppModalDelete from '@/components/AppModalDelete.vue'
+import { onMounted, ref } from 'vue'
+
+const accounts = ref<AccountIndex[]>([])
+const selectedAccount = ref<AccountIndex | null>(null)
+
+let modalDelete: Modal | null = null
 
 const columns: IColumn<AccountIndex>[] = [
   { label: '#', field: 'id' },
@@ -19,8 +27,34 @@ const getAccounts = async (params: PaginationParams) => {
   return response.data.data.accounts
 }
 
+const handleDeleteClick = (account: AccountIndex) => {
+  selectedAccount.value = account
+  modalDelete!.show()
+}
+
+const handleDelete = async () => {
+  console.log("ON DELETE");
+
+  try {
+    await api.delete(`api/accounts/${selectedAccount.value!.id}`)
+    const selectedAccountIndex = accounts.value.findIndex((a) => a.id == selectedAccount.value!.id)
+    pagination.value.data.splice(selectedAccountIndex, 1)
+
+    //     delete seasonalPlans.value[selectedSeasonalPlanId];
+  } catch (ex) {
+    console.log(ex)
+    alert('something went wrong')
+  }
+
+  modalDelete!.hide()
+}
+
 const { pagination, handlePageChange, handleSearchChange } = useDataTable<AccountIndex>({
   fetchFunction: getAccounts,
+})
+
+onMounted(() => {
+  modalDelete = new Modal(document.getElementById('modal-delete'))
 })
 </script>
 
@@ -47,6 +81,18 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Accoun
                 @page-change="handlePageChange"
                 :columns="columns"
               >
+                <template #cell-actions="{ row: account }">
+                  <RouterLink :to="`/accounts/${account.id}/edit`" class="btn btn-info btn-sm me-2">
+                    Edit
+                  </RouterLink>
+
+                  <button @click="handleDeleteClick(account)" class="btn btn-danger btn-sm">Delete</button>
+                </template>
+                <template #cell-name="{ row: accountName }">
+                  <RouterLink :to="`/accounts/${accountName.id}`">
+                    {{ accountName.name }}
+                  </RouterLink>
+                </template>
                 <template #table-footer>
                   <tfoot>
                     <tr>
@@ -63,4 +109,5 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Accoun
       </div>
     </div>
   </main>
+  <AppModalDelete @onSubmit="handleDelete" />
 </template>

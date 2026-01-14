@@ -15,6 +15,12 @@ import BackupsView from '@/views/backups/BackupsView.vue'
 import AccountHeadsView from '@/views/account-heads/AccountHeadsView.vue'
 import AccountHeadView from '@/views/account-heads/AccountHeadView.vue'
 import AccountsView from '@/views/accounts/AccountsView.vue'
+import AccountFormView from '@/views/accounts/AccountFormView.vue'
+import CurrenciesView from '@/views/currencies/CurrenciesView.vue'
+import ProjectsView from '@/views/projects/ProjectsView.vue'
+import RepositoriesView from '@/views/repositories/RepositoriesView.vue'
+import InvoicesView from '@/views/invoices/InvoicesView.vue'
+import ReceiptsView from '@/views/receipts/ReceiptsView.vue'
 
 let isInitiated: boolean = false
 
@@ -91,6 +97,17 @@ const router = createRouter({
               name: 'accounts.index',
               component: AccountsView,
             },
+
+            {
+              path: 'create',
+              name: 'accounts.create',
+              component: AccountFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'accounts.edit',
+              component: AccountFormView,
+            },
             // {
             //   path: 'create',
             //   name: 'accounts.create',
@@ -112,6 +129,37 @@ const router = createRouter({
           path: 'backups',
           name: 'backups.index',
           component: BackupsView,
+        },
+
+        {
+          path: 'currencies',
+          name: 'currencies.index',
+          component: CurrenciesView,
+        },
+
+        {
+
+          path: 'projects',
+          name: 'projects.index',
+          component: ProjectsView,
+        },
+
+        {
+          path: 'repositories',
+          name: 'repositories.index',
+          component: RepositoriesView,
+        },
+
+        {
+          path: 'invoices',
+          name: 'invoices.index',
+          component: InvoicesView,
+        },
+
+        {
+          path: 'receipts',
+          name: 'receipts.index',
+          component: ReceiptsView,
         },
       ],
     },
