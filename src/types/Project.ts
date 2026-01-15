@@ -12,6 +12,14 @@ export interface Project {
   live_url: string
   account: Account
   currency: Currency
+  is_available: boolean
+  is_duplicable: boolean
+  is_sellable: boolean
+  demo_url: string
+  is_live: boolean
+  created_at: string
+  updated_at: string
+  deleted_at: string | null
 }
 
 export type ProjectIndex = Pick<

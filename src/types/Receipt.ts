@@ -1,3 +1,6 @@
+import type { Invoice } from "./Invoice"
+import type { Project } from "./Project"
+
 export interface Receipt {
   id: number
   project_id: number
@@ -8,6 +11,8 @@ export interface Receipt {
   original_amount: number
   created_at: string
   updated_at: string
+  project: Project
+  invoice: Invoice
 }
 
 export type ReceiptIndex = Pick<

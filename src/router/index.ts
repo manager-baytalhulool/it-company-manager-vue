@@ -18,9 +18,17 @@ import AccountsView from '@/views/accounts/AccountsView.vue'
 import AccountFormView from '@/views/accounts/AccountFormView.vue'
 import CurrenciesView from '@/views/currencies/CurrenciesView.vue'
 import ProjectsView from '@/views/projects/ProjectsView.vue'
+import ProjectFormView from '@/views/projects/ProjectFormView.vue'
 import RepositoriesView from '@/views/repositories/RepositoriesView.vue'
+import RepositoryFormView from '@/views/repositories/RepositoryFormView.vue'
 import InvoicesView from '@/views/invoices/InvoicesView.vue'
 import ReceiptsView from '@/views/receipts/ReceiptsView.vue'
+import InvoiceFormView from '@/views/invoices/InvoiceFormView.vue'
+import ReceiptFormView from '@/views/receipts/ReceiptFormView.vue'
+import AccountView from '@/views/accounts/AccountView.vue'
+import ProjectView from '@/views/projects/ProjectView.vue'
+import RepositoryView from '@/views/repositories/RepositoryView.vue'
+import ReceiptView from '@/views/receipts/ReceiptView.vue'
 
 let isInitiated: boolean = false
 
@@ -108,21 +116,11 @@ const router = createRouter({
               name: 'accounts.edit',
               component: AccountFormView,
             },
-            // {
-            //   path: 'create',
-            //   name: 'accounts.create',
-            //   component: InvoiceFormView,
-            // },
-            // {
-            //   path: ':id',
-            //   name: 'accounts.show',
-            //   component: InvoiceView,
-            // },
-            // {
-            //   path: ':id/edit',
-            //   name: 'accounts.edit',
-            //   component: InvoiceFormView,
-            // },
+            {
+              path: ':id',
+              name: 'accounts.show',
+              component: AccountView,
+            },
           ],
         },
         {
@@ -138,28 +136,103 @@ const router = createRouter({
         },
 
         {
-
           path: 'projects',
-          name: 'projects.index',
-          component: ProjectsView,
+          children: [
+            {
+              path: '',
+              name: 'projects.index',
+              component: ProjectsView,
+            },
+            {
+              path: 'create',
+              name: 'projects.create',
+              component: ProjectFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'projects.edit',
+              component: ProjectFormView,
+            },
+            {
+              path: ':id',
+              name: 'projects.show',
+              component: ProjectView,
+            },
+          ],
         },
 
         {
           path: 'repositories',
-          name: 'repositories.index',
-          component: RepositoriesView,
+          children: [
+            {
+              path: '',
+              name: 'repositories.index',
+              component: RepositoriesView,
+            },
+            {
+              path: 'create',
+              name: 'repositories.create',
+              component: RepositoryFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'repositories.edit',
+              component: RepositoryFormView,
+            },
+            {
+              path: ':id/',
+              name: 'repositories.show',
+              component: RepositoryView,
+            },
+          ],
         },
+
 
         {
           path: 'invoices',
-          name: 'invoices.index',
-          component: InvoicesView,
+          children: [
+            {
+              path: '',
+              name: 'invoices.index',
+              component: InvoicesView,
+            },
+            {
+              path: 'create',
+              name: 'invoices.create',
+              component: InvoiceFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'invoices.edit',
+              component: InvoiceFormView,
+            },
+          ],
         },
 
         {
           path: 'receipts',
-          name: 'receipts.index',
-          component: ReceiptsView,
+          children: [
+            {
+              path: '',
+              name: 'receipts.index',
+              component: ReceiptsView,
+            },
+            {
+              path: 'create',
+              name: 'receipts.create',
+              component: ReceiptFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'receipts.edit',
+              component: ReceiptFormView,
+            },
+            {
+              path: ':id',
+              name: 'receipts.show',
+              component: ReceiptView,
+            },
+          ],
         },
       ],
     },

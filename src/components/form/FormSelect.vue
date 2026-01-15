@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import type { BaseEntity } from '@/types/BaseEntity';
 import { toRefs } from 'vue'
 
-const props = defineProps(['name', 'label', 'modelValue', 'items'])
-const { name, label, modelValue, items } = toRefs(props)
+const props = withDefaults(
+  defineProps<{ name: string; label: string; modelValue: any; items: BaseEntity[]; disabled?: boolean }>(),
+  { disabled: false },
+)
+
+const { name, label, modelValue, items, disabled } = toRefs(props)
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -20,10 +25,11 @@ const updateValue = ($event: any) => {
       :name="name"
       :value="modelValue"
       :placeholder="label"
+      :disabled="disabled"
       @change="updateValue"
     >
-    <option value="" selected>Select Option</option>
-    <option  v-for="item in items" :value="item.id" :key="item.id">{{ item.name }}</option>
+      <option value="" selected>Select Option</option>
+      <option v-for="item in items" :value="item.id" :key="item.id">{{ item.name }}</option>
     </select>
   </div>
 </template>

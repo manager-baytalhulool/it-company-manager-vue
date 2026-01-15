@@ -4,11 +4,19 @@ import { useDataTable } from '@/composables/useDataTable'
 import api from '@/plugins/axios'
 import type { ReceiptIndex } from '@/types/Receipt'
 import type { IColumn, PaginationParams } from '@/types/Pagination'
+import { Modal } from 'bootstrap'
+import { onMounted, ref } from 'vue'
+import AppModalDelete from '@/components/AppModalDelete.vue'
+
+const receipts = ref<ReceiptIndex[]>([])
+const selectedReceipt = ref<ReceiptIndex | null>(null)
+
+let modalDelete: Modal | null = null
 
 const columns: IColumn<ReceiptIndex>[] = [
   { label: '#', field: 'id' },
   { label: 'Project ID', field: 'project_id' },
-  { label: 'Invioce ID', field: 'invoice_id' },
+  { label: 'Invoice ID', field: 'invoice_id' },
   { label: 'Date', field: 'date' },
   { label: 'Description', field: 'description' },
   { label: 'Amount', field: 'amount' },
@@ -21,8 +29,33 @@ const getReceipts = async (params: PaginationParams) => {
   return response.data.data.receipts
 }
 
+const handleDeleteClick = (receipt: ReceiptIndex) => {
+  selectedReceipt.value = receipt
+  modalDelete!.show()
+}
+
+const handleDelete = async () => {
+
+  try {
+    await api.delete(`api/receipts/${selectedReceipt.value!.id}`)
+    const selectedReceiptIndex = receipts.value.findIndex((a) => a.id == selectedReceipt.value!.id)
+    pagination.value.data.splice(selectedReceiptIndex, 1)
+
+    //     delete seasonalPlans.value[selectedSeasonalPlanId];
+  } catch (ex) {
+    console.log(ex)
+    alert('something went wrong')
+  }
+
+  modalDelete!.hide()
+}
+
 const { pagination, handlePageChange, handleSearchChange } = useDataTable<ReceiptIndex>({
   fetchFunction: getReceipts,
+})
+
+onMounted(() => {
+  modalDelete = new Modal(document.getElementById('modal-delete'))
 })
 </script>
 
@@ -30,6 +63,12 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Receip
   <main class="content">
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">Receipts</h1>
+
+      <div class="mb-3 text-end">
+        <RouterLink to="/receipts/create">
+          <button class="btn btn-success">Add new</button>
+        </RouterLink>
+      </div>
 
       <div class="row">
         <div class="col-12">
@@ -44,6 +83,19 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Receip
                 @page-change="handlePageChange"
                 :columns="columns"
               >
+
+              <template #cell-actions="{ row: receipt }">
+                  <RouterLink :to="`/receipts/${receipt.id}/edit`" class="btn btn-info btn-sm me-2">
+                    Edit
+                  </RouterLink>
+
+                  <button @click="handleDeleteClick(receipt)" class="btn btn-danger btn-sm">Delete</button>
+                </template>
+                <template #cell-id="{ row: receiptName }">
+                  <RouterLink :to="`/receipts/${receiptName.id}`">
+                    {{ receiptName.id }}
+                  </RouterLink>
+                </template>
               </AppDataTable>
 
 
@@ -53,4 +105,6 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Receip
       </div>
     </div>
   </main>
+
+  <AppModalDelete @onSubmit="handleDelete" />
 </template>

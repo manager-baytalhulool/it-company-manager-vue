@@ -1,0 +1,131 @@
+- .editorconfig
+- .env
+- .gitattributes
+- .gitignore
+- .prettierrc.json
+- LICENSE
+- README.md
+- env.d.ts
+- eslint.config.ts
+- index.html
+- package-lock.json
+- package.json
+- public
+  - favicon.ico
+- src
+  - App.vue
+  - assets
+    - img
+      - avatars
+        - default-avatar.png
+    - js
+      - modules
+        - bootstrap.js
+        - chartjs.js
+        - feather.js
+        - flatpickr.js
+        - sidebar.ts
+        - theme.js
+        - vector-maps.js
+      - vendor.js
+    - scss
+      - 1-variables
+        - _app.scss
+      - 2-mixins
+        - _button.scss
+      - 3-components
+        - _avatar.scss
+        - _barcode-print.scss
+        - _buttons.scss
+        - _card.scss
+        - _chart.scss
+        - _content.scss
+        - _dropdown.scss
+        - _feather.scss
+        - _footer.scss
+        - _form.scss
+        - _hamburger.scss
+        - _list-group.scss
+        - _loader.scss
+        - _main.scss
+        - _navbar.scss
+        - _pos-print.scss
+        - _reboot.scss
+        - _sidebar.scss
+        - _sizing.scss
+        - _stat.scss
+        - _tables.scss
+        - _type.scss
+        - _vue-select.scss
+        - _wrapper.scss
+      - 4-utilities
+        - _cursors.scss
+      - 5-vendor
+        - _flatpickr.scss
+        - _simplebar.scss
+      - app.scss
+  - components
+    - AppDataTable.vue
+    - AppFeatherIcon.vue
+    - AppFooter.vue
+    - AppLoader.vue
+    - AppModalDelete.vue
+    - AppNavbar.vue
+    - AppSidebar.vue
+    - AppSidebarItem.vue
+    - form
+      - FormInput.vue
+      - FormSelect.vue
+  - composables
+    - useDataTable.ts
+    - useDebounce.ts
+  - layouts
+    - AuthLayout.vue
+    - MasterLayout.vue
+  - main.ts
+  - plugins
+    - axios.ts
+  - router
+    - index.ts
+  - stores
+    - appStore.ts
+    - authStore.ts
+  - types
+    - Account.ts
+    - AccountHead.ts
+    - Auth.ts
+    - BaseEntity.ts
+    - Currency.ts
+    - DataTable.ts
+    - Invoice.ts
+    - Pagination.ts
+    - Project.ts
+    - Receipt.ts
+    - Repository.ts
+  - views
+    - HomeView.vue
+    - account-heads
+      - AccountHeadView.vue
+      - AccountHeadsView.vue
+    - accounts
+      - AccountFormView.vue
+      - AccountView.vue
+      - AccountsView.vue
+    - auth
+      - LoginView.vue
+    - backups
+      - BackupsView.vue
+    - currencies
+      - CurrenciesView.vue
+    - invoices
+      - InvoicesView.vue
+    - projects
+      - ProjectsView.vue
+    - receipts
+      - ReceiptsView.vue
+    - repositories
+      - RepositoriesView.vue
+- tsconfig.app.json
+- tsconfig.json
+- tsconfig.node.json
+- vite.config.ts

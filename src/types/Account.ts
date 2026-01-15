@@ -1,4 +1,5 @@
 import type { BaseEntity } from './BaseEntity'
+import type { Project } from './Project'
 
 export interface Account {
   id: number
@@ -9,6 +10,9 @@ export interface Account {
   created_at: string
   updated_at: string
   currency: BaseEntity
+  projects_count: number
+  phone: string | null
+  projects: Project[]
 }
 
 export type AccountIndex = Pick<

@@ -1,37 +1,34 @@
 <script setup lang="ts">
 import api from '@/plugins/axios'
-import type { Account } from '@/types/Account'
-import type { Receipt } from '@/types/Receipt'
+import type { Project } from '@/types/Project'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = route.params.id
 
-const account = ref<Account | null>(null)
-const receipts = ref<Receipt[] | null>([])
+const project = ref<Project | null>(null)
 
-const getAccount = async () => {
-  const response = await api.get(`/api/accounts/${id}`)
-  account.value = response.data.data.account
-  receipts.value = response.data.data.receipts
+const getProject = async () => {
+  const response = await api.get(`/api/projects/${id}`)
+  project.value = response.data.data.project
 }
 
 onMounted(async () => {
-  await getAccount()
+  await getProject()
 })
 </script>
 
 <template>
   <main class="content">
     <div class="container-fluid p-0">
-      <h1 class="h3 mb-3">Account</h1>
+      <h1 class="h3 mb-3">Project</h1>
 
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title mb-0">{{ account?.name }}</h5>
+              <h5 class="card-title mb-0">{{ project?.name }}</h5>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -39,31 +36,59 @@ onMounted(async () => {
                   <tbody>
                     <tr>
                       <th>Name</th>
-                      <td>{{ account?.name }}</td>
+                      <td>{{ project?.name }}</td>
                     </tr>
                     <tr>
-                      <th>Phone</th>
-                      <td>{{ account?.phone }}</td>
+                      <th>Account ID</th>
+                      <td>{{ project?.account_id }}</td>
                     </tr>
                     <tr>
-                      <th>Person</th>
-                      <td>{{ account?.person }}</td>
+                      <th>Currency ID</th>
+                      <td>{{ project?.currency_id }}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <th>Currency</th>
-                      <td>{{ account?.currency }}</td>
-                    </tr>
+                      <td>{{ project?.currency }}</td>
+                    </tr> -->
                     <tr>
                       <th>Original Amount Earned</th>
-                      <td>{{ account?.original_amount }}</td>
+                      <td>{{ project?.original_amount }}</td>
                     </tr>
                     <tr>
                       <th>Amount in PKR</th>
-                      <td>{{ account?.amount }}</td>
+                      <td>{{ project?.amount }}</td>
                     </tr>
                     <tr>
-                      <th>Projects Count</th>
-                      <td>{{ account?.projects_count }}</td>
+                      <th>Paid</th>
+                      <td>{{ project?.paid }}</td>
+                    </tr>
+                    <tr>
+                      <th>Paid</th>
+                      <td>{{ project?.paid }}</td>
+                    </tr>
+                    <tr>
+                      <th>Is Available</th>
+                      <td>{{ project?.is_available }}</td>
+                    </tr>
+                    <tr>
+                      <th>Is Duplicable</th>
+                      <td>{{ project?.is_duplicable }}</td>
+                    </tr>
+                    <tr>
+                      <th>Is Sellable</th>
+                      <td>{{ project?.is_sellable }}</td>
+                    </tr>
+                    <tr>
+                      <th>Live URL</th>
+                      <td>{{ project?.live_url }}</td>
+                    </tr>
+                    <tr>
+                      <th>Demo URL</th>
+                      <td>{{ project?.demo_url }}</td>
+                    </tr>
+                    <tr>
+                      <th>Is Live</th>
+                      <td>{{ project?.is_live }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -73,7 +98,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
@@ -98,7 +123,7 @@ onMounted(async () => {
                           {{ project.name }}
                         </RouterLink>
                       </td>
-                      <td>{{ project.original_amount }} {{ account!.currency }}</td>
+                      <td>{{ project.original_amount }} {{ account.currency }}</td>
                       <td>{{ project.paid }}</td>
                     </tr>
                   </tbody>
@@ -107,11 +132,16 @@ onMounted(async () => {
                       <th colspan="2" class="text-end">Total</th>
                       <th>
                         {{
-                          account?.projects.reduce((sum : number, p: any) => sum + Number(p.original_amount), 0)
+                          account?.projects.reduce(
+                            (sum: number, p: any) => sum + Number(p.original_amount),
+                            0,
+                          )
                         }}
                       </th>
                       <th>
-                        {{ account?.projects.reduce((sum: number, p: any) => sum + Number(p.paid), 0) }}
+                        {{
+                          account?.projects.reduce((sum: number, p: any) => sum + Number(p.paid), 0)
+                        }}
                       </th>
                     </tr>
                   </tfoot>
@@ -147,23 +177,25 @@ onMounted(async () => {
                       <td>{{ receipt.date }}</td>
                       <td>{{ receipt.project?.name }}</td>
                       <td>{{ receipt.invoice?.description }}</td>
-                      <td>{{ receipt.original_amount }} {{ account!.currency }}</td>
+                      <td>{{ receipt.original_amount }} {{ account.currency }}</td>
                       <td>{{ receipt.amount }}</td>
                     </tr>
                   </tbody>
-                  <!-- <tfoot>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </main>
+</template>
+
+<!-- <tfoot>
                     <tr>
                       <th colspan="4" class="text-end">Total</th>
                       <th>{{ $receipts->sum('original_amount') }}</th>
                       <th>{{ $receipts->sum('amount') }}</th>
                     </tr>
                   </tfoot> -->
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</template>
