@@ -7,6 +7,7 @@ import type { IColumn, PaginationParams } from '@/types/Pagination'
 import { Modal } from 'bootstrap'
 import { onMounted, ref } from 'vue'
 import AppModalDelete from '@/components/AppModalDelete.vue'
+import { formatDate } from '@/utils/dateFormat'
 
 const receipts = ref<ReceiptIndex[]>([])
 const selectedReceipt = ref<ReceiptIndex | null>(null)
@@ -15,8 +16,9 @@ let modalDelete: Modal | null = null
 
 const columns: IColumn<ReceiptIndex>[] = [
   { label: '#', field: 'id' },
-  { label: 'Project ID', field: 'project_id' },
-  { label: 'Invoice ID', field: 'invoice_id' },
+  { label: 'Project', field: 'project_id' },
+  { label: 'Account', field: 'project' },
+  { label: 'Invoice', field: 'invoice_id' },
   { label: 'Date', field: 'date' },
   { label: 'Description', field: 'description' },
   { label: 'Amount', field: 'amount' },
@@ -35,7 +37,6 @@ const handleDeleteClick = (receipt: ReceiptIndex) => {
 }
 
 const handleDelete = async () => {
-
   try {
     await api.delete(`api/receipts/${selectedReceipt.value!.id}`)
     const selectedReceiptIndex = receipts.value.findIndex((a) => a.id == selectedReceipt.value!.id)
@@ -83,13 +84,42 @@ onMounted(() => {
                 @page-change="handlePageChange"
                 :columns="columns"
               >
+                <template #cell-project_id="{ row: receipt }">
+                  <RouterLink :to="`/projects/${receipt.project_id}`">
+                    {{ receipt.project?.name }}
+                  </RouterLink>
+                </template>
 
-              <template #cell-actions="{ row: receipt }">
+                <template #cell-project="{ row: receipt }">
+                  {{ receipt.project?.account?.name }}
+                </template>
+
+                <template #cell-invoice_id="{ row: receipt }">
+                  {{ receipt.invoice_id }}
+                </template>
+
+                <template #cell-date="{ row: receipt }">
+                  {{ formatDate(receipt.date) }}
+                </template>
+
+                <template #cell-amount="{ row: receipt }">
+                  {{ Number(receipt.amount).toLocaleString() }}
+                  {{ receipt.project?.currency?.code }}
+                </template>
+
+                <template #cell-original_amount="{ row: receipt }">
+                  {{ Number(receipt.original_amount).toLocaleString() }}
+                  {{ receipt.project?.currency?.code }}
+                </template>
+
+                <template #cell-actions="{ row: receipt }">
                   <RouterLink :to="`/receipts/${receipt.id}/edit`" class="btn btn-info btn-sm me-2">
                     Edit
                   </RouterLink>
 
-                  <button @click="handleDeleteClick(receipt)" class="btn btn-danger btn-sm">Delete</button>
+                  <button @click="handleDeleteClick(receipt)" class="btn btn-danger btn-sm">
+                    Delete
+                  </button>
                 </template>
                 <template #cell-id="{ row: receiptName }">
                   <RouterLink :to="`/receipts/${receiptName.id}`">
@@ -97,8 +127,6 @@ onMounted(() => {
                   </RouterLink>
                 </template>
               </AppDataTable>
-
-
             </div>
           </div>
         </div>

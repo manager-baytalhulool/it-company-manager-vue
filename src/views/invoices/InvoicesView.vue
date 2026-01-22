@@ -7,6 +7,7 @@ import type { InvoiceIndex } from '@/types/Invoice'
 import type { IColumn, PaginationParams } from '@/types/Pagination'
 import { Modal } from 'bootstrap'
 import { onMounted, ref } from 'vue'
+import { formatDate } from '@/utils/dateFormat'
 
 const invoices = ref<InvoiceIndex[]>([])
 const selectedInvoice = ref<InvoiceIndex | null>(null)
@@ -58,7 +59,6 @@ onMounted(() => {
 })
 </script>
 
-
 <template>
   <main class="content">
     <div class="container-fluid p-0">
@@ -83,20 +83,37 @@ onMounted(() => {
                 @page-change="handlePageChange"
                 :columns="columns"
               >
-              <template #cell-actions="{ row: invoice }">
-                <RouterLink :to="`/invoices/${invoice.id}/edit`" class="btn btn-info btn-sm me-2">
-                  Edit
-                </RouterLink>
+                <template #cell-id="{ row: invoiceId }">
+                  <RouterLink :to="`/invoices/${invoiceId.id}`">
+                    {{ invoiceId.id }}
+                  </RouterLink>
+                </template>
+                <template #cell-date="{ row: invoice }">
+                  {{ formatDate(invoice.date) }}
+                </template>
+                <template #cell-due_date="{ row: invoice }">
+                  {{ formatDate(invoice.due_date) }}
+                </template>
 
-                <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
-                  Delete
-                </button>
-              </template>
-              <template #cell-name="{ row: invoiceName }">
-                <RouterLink :to="`/invoices/${invoiceName.id}`">
-                  {{ invoiceName.id }}
-                </RouterLink>
-              </template>
+                <template #cell-amount="{ row: invoice }">
+                  {{ Number(invoice.amount).toLocaleString() }}
+                  <!-- {{ invoice.project?.account?.currency?.code }} -->
+                </template>
+
+                <template #cell-actions="{ row: invoice }">
+                  <RouterLink :to="`/invoices/${invoice.id}/edit`" class="btn btn-info btn-sm me-2">
+                    Edit
+                  </RouterLink>
+
+                  <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
+                    Delete
+                  </button>
+                </template>
+                <template #cell-name="{ row: invoiceName }">
+                  <RouterLink :to="`/invoices/${invoiceName.id}`">
+                    {{ invoiceName.id }}
+                  </RouterLink>
+                </template>
               </AppDataTable>
             </div>
           </div>

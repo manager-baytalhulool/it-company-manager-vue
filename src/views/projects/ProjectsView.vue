@@ -15,12 +15,12 @@ let modalDelete: Modal | null = null
 
 const columns: IColumn<ProjectIndex>[] = [
   { label: '#', field: 'id' },
-  { label: 'Account ID', field: 'account_id' },
-  { label: 'Currency ID', field: 'currency_id' },
+  { label: 'Account', field: 'account_id' },
   { label: 'Name', field: 'name' },
-  { label: 'Amount', field: 'amount' },
+  { label: 'Amount in PKR', field: 'amount' },
   { label: 'Original Amount', field: 'original_amount' },
-  { label: 'Paid', field: 'paid' },
+  { label: 'Amount Paid (PKR)', field: 'paid' },
+  { label: 'Original Amount Paid', field: 'paid' },
   { label: 'Live URL', field: 'live_url' },
   { label: 'Actions', field: 'actions' },
 ]
@@ -86,6 +86,22 @@ onMounted(() => {
                 @page-change="handlePageChange"
                 :columns="columns"
               >
+                <template #cell-account_id="{ row: project }">
+                  {{ project.account?.name }}
+                </template>
+
+                <template #cell-amount="{ row: account }">
+                  {{ Number(account.amount).toLocaleString() }} PKR
+                </template>
+
+                <template #cell-original_amount="{ row: account }">
+                  {{ Number(account.original_amount).toLocaleString() }} {{ account.currency.code }}
+                </template>
+
+                <template #cell-paid="{ row: account }">
+                  {{ Number(account.paid).toLocaleString() }} PKR
+                </template>
+
                 <template #cell-actions="{ row: project }">
                   <RouterLink :to="`/projects/${project.id}/edit`" class="btn btn-info btn-sm me-2">
                     Edit

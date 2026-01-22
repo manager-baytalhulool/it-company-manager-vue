@@ -20,14 +20,14 @@ const formBody = ref({
   due_date: '',
   description: '',
   amount: '',
-  status: ''
+  status: '',
 })
 
 const getCurrencies = async () => {
   const response = await api.get('/api/currencies', {
     params: {
-      for: 'select'
-    }
+      for: 'select',
+    },
   })
   currencies.value = response.data.data.currencies
 }
@@ -35,8 +35,8 @@ const getCurrencies = async () => {
 const getProjects = async () => {
   const response = await api.get('/api/projects', {
     params: {
-      for: 'select'
-    }
+      for: 'select',
+    },
   })
   projects.value = response.data.data.projects
 }
@@ -59,7 +59,7 @@ const getInvoice = async () => {
     due_date: invoice.due_date,
     description: invoice.description,
     amount: invoice.amount,
-    status: invoice.status
+    status: invoice.status,
   }
 }
 
@@ -89,19 +89,62 @@ onMounted(async () => {
       <h1 class="h3 mb-3">Invoices</h1>
       <div class="card">
         <form @submit.prevent="handleSubmit">
-          <div class="card-header"><h5 class="card-title mb-0">{{ isEditMode ? 'Edit' : 'Add' }} Invoice</h5></div>
+          <div class="card-header">
+            <h5 class="card-title mb-0">{{ isEditMode ? 'Edit' : 'Add' }} Invoice</h5>
+          </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6"><FormSelect name="project_id" label="Project" v-model="formBody.project_id" :items="projects" /></div>
-              <div class="col-md-6"><FormSelect name="currency_id" label="Currency" v-model="formBody.currency_id" :items="currencies" /></div>
-              <div class="col-md-6"><FormInput name="date" label="Date" v-model="formBody.date" type="date" /></div>
-              <div class="col-md-6"><FormInput name="due_date" label="Due Date" v-model="formBody.due_date" type="date" /></div>
-              <div class="col-md-6"><FormInput name="description" label="Description" v-model="formBody.description" type="text" /></div>
-              <div class="col-md-6"><FormInput name="amount" label="Amount (PKR)" v-model="formBody.amount" type="number" /></div>
-              <div class="col-md-6"><FormInput name="status" label="Status" v-model="formBody.status" type="text" /></div>
+              <div class="col-md-6">
+                <FormSelect
+                  name="project_id"
+                  label="Project"
+                  v-model="formBody.project_id"
+                  :items="projects"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormSelect
+                  name="currency_id"
+                  label="Currency"
+                  v-model="formBody.currency_id"
+                  :items="currencies"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput name="date" label="Date" v-model="formBody.date" type="date" />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="due_date"
+                  label="Due Date"
+                  v-model="formBody.due_date"
+                  type="date"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="description"
+                  label="Description"
+                  v-model="formBody.description"
+                  type="text"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="amount"
+                  label="Amount Remove Status"
+                  v-model="formBody.amount"
+                  type="number"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput name="status" label="Status" v-model="formBody.status" type="text" />
+              </div>
             </div>
           </div>
-          <div class="card-footer text-end"><button type="submit" class="btn btn-primary">Save</button></div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </form>
       </div>
     </div>

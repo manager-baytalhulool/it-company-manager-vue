@@ -13,6 +13,7 @@ export interface Account {
   projects_count: number
   phone: string | null
   projects: Project[]
+  address: string | null
 }
 
 export type AccountIndex = Pick<

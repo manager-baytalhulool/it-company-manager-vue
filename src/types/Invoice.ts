@@ -1,5 +1,8 @@
+import type { Project } from './Project'
+
 export interface Invoice {
   id: number
+  project: Project
   project_id: number
   currency_id: number
   date: string
@@ -14,8 +17,15 @@ export interface Invoice {
 
 export type InvoiceIndex = Pick<
   Invoice,
-  'id' | 'project_id' | 'currency_id' | 'date' | 'due_date' | 'description' | 'amount' | 'status'
+  | 'id'
+  | 'project'
+  | 'project_id'
+  | 'currency_id'
+  | 'date'
+  | 'due_date'
+  | 'description'
+  | 'amount'
+  | 'status'
 >
-
 
 // id, project_id, currency_id, date, due_date, description, amount, status, created_at, updated_at, deleted_at

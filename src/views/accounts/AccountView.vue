@@ -4,6 +4,7 @@ import type { Account } from '@/types/Account'
 import type { Receipt } from '@/types/Receipt'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { formatDate } from '@/utils/dateFormat'
 
 const route = useRoute()
 const id = route.params.id
@@ -51,19 +52,24 @@ onMounted(async () => {
                     </tr>
                     <tr>
                       <th>Currency</th>
-                      <td>{{ account?.currency }}</td>
+                      <td>{{ account?.currency.name }}</td>
                     </tr>
                     <tr>
                       <th>Original Amount Earned</th>
-                      <td>{{ account?.original_amount }}</td>
+                      <td>
+                        {{ Number(account?.original_amount).toLocaleString() }}
+                        {{ account?.currency?.code }}
+                      </td>
                     </tr>
                     <tr>
                       <th>Amount in PKR</th>
-                      <td>{{ account?.amount }}</td>
+                      <td>
+                        {{ Number(account?.amount).toLocaleString() }} {{ account?.currency?.code }}
+                      </td>
                     </tr>
                     <tr>
                       <th>Projects Count</th>
-                      <td>{{ account?.projects_count }}</td>
+                      <td>{{ account?.projects?.length }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -98,7 +104,7 @@ onMounted(async () => {
                           {{ project.name }}
                         </RouterLink>
                       </td>
-                      <td>{{ project.original_amount }} {{ account!.currency }}</td>
+                      <td>{{ project.original_amount }} {{ account!.currency.code }}</td>
                       <td>{{ project.paid }}</td>
                     </tr>
                   </tbody>
@@ -107,11 +113,16 @@ onMounted(async () => {
                       <th colspan="2" class="text-end">Total</th>
                       <th>
                         {{
-                          account?.projects.reduce((sum : number, p: any) => sum + Number(p.original_amount), 0)
+                          account?.projects.reduce(
+                            (sum: number, p: any) => sum + Number(p.original_amount),
+                            0,
+                          )
                         }}
                       </th>
                       <th>
-                        {{ account?.projects.reduce((sum: number, p: any) => sum + Number(p.paid), 0) }}
+                        {{
+                          account?.projects.reduce((sum: number, p: any) => sum + Number(p.paid), 0)
+                        }}
                       </th>
                     </tr>
                   </tfoot>
@@ -144,10 +155,10 @@ onMounted(async () => {
                   <tbody>
                     <tr v-for="(receipt, i) in receipts" :key="receipt.id">
                       <th>{{ i + 1 }}</th>
-                      <td>{{ receipt.date }}</td>
+                      <td>{{ formatDate(receipt.date) }}</td>
                       <td>{{ receipt.project?.name }}</td>
                       <td>{{ receipt.invoice?.description }}</td>
-                      <td>{{ receipt.original_amount }} {{ account!.currency }}</td>
+                      <td>{{ receipt.original_amount }} {{ account!.currency.code }}</td>
                       <td>{{ receipt.amount }}</td>
                     </tr>
                   </tbody>

@@ -21,14 +21,14 @@ onMounted(async () => {
 
 <template>
   <main class="content">
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0" v-if="project">
       <h1 class="h3 mb-3">Project</h1>
 
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title mb-0">{{ project?.name }}</h5>
+              <h5 class="card-title mb-0">{{ project.name }}</h5>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -40,11 +40,11 @@ onMounted(async () => {
                     </tr>
                     <tr>
                       <th>Account ID</th>
-                      <td>{{ project?.account_id }}</td>
+                      <td>{{ project.account?.name }}</td>
                     </tr>
                     <tr>
                       <th>Currency ID</th>
-                      <td>{{ project?.currency_id }}</td>
+                      <td>{{ project.currency_id }}</td>
                     </tr>
                     <!-- <tr>
                       <th>Currency</th>
@@ -52,19 +52,22 @@ onMounted(async () => {
                     </tr> -->
                     <tr>
                       <th>Original Amount Earned</th>
-                      <td>{{ project?.original_amount }}</td>
+                      <td>
+                        {{ Number(project.original_amount).toLocaleString() }}
+                        {{ project.currency.code }}
+                      </td>
                     </tr>
                     <tr>
                       <th>Amount in PKR</th>
-                      <td>{{ project?.amount }}</td>
+                      <td>{{ Number(project.amount).toLocaleString() }} PKR</td>
                     </tr>
                     <tr>
                       <th>Paid</th>
-                      <td>{{ project?.paid }}</td>
+                      <td>{{ Number(project.paid).toLocaleString() }} PKR</td>
                     </tr>
                     <tr>
                       <th>Paid</th>
-                      <td>{{ project?.paid }}</td>
+                      <td>{{ Number(project.paid).toLocaleString() }} PKR</td>
                     </tr>
                     <tr>
                       <th>Is Available</th>

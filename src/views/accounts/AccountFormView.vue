@@ -13,21 +13,36 @@ const router = useRouter()
 /* data */
 const isEditMode = id ? true : false
 const currencies = ref<any[]>([])
+const accounts = ref<any[]>([])
 const formBody = ref({
   name: '',
   person: '',
   original_amount: '',
   currency_id: '',
-  amount: ''
+  amount: '',
+  phone: '',
+  parent_id: '',
+  address: '',
+  longitude: '',
+  latitude: '',
 })
 
 const getCurrencies = async () => {
   const response = await api.get('/api/currencies', {
     params: {
-      for: 'select'
-    }
+      for: 'select',
+    },
   })
   currencies.value = response.data.data.currencies
+}
+
+const getAccounts = async () => {
+  const response = await api.get('/api/accounts', {
+    params: {
+      for: 'select',
+    },
+  })
+  accounts.value = response.data.data.accounts
 }
 
 const getAccount = async () => {
@@ -38,7 +53,12 @@ const getAccount = async () => {
     person: acc.person,
     original_amount: acc.original_amount,
     currency_id: acc.currency_id,
-    amount: acc.amount
+    amount: acc.amount,
+    phone: acc.phone,
+    parent_id: acc.parent_id,
+    address: acc.address,
+    longitude: acc.longitude,
+    latitude: acc.latitude,
   }
 }
 
@@ -57,6 +77,7 @@ const handleSubmit = async () => {
 
 onMounted(async () => {
   await getCurrencies()
+  await getAccounts()
   if (isEditMode) await getAccount()
 })
 </script>
@@ -76,16 +97,50 @@ onMounted(async () => {
                 <FormInput name="name" label="Account Name" v-model="formBody.name" type="text" />
               </div>
               <div class="col-md-6">
-                <FormInput name="person" label="Contact Person" v-model="formBody.person" type="text" />
+                <FormInput
+                  name="person"
+                  label="Contact Person"
+                  v-model="formBody.person"
+                  type="text"
+                />
               </div>
               <div class="col-md-6">
-                <FormInput name="original_amount" label="Original Amount Earned" v-model="formBody.original_amount" type="number" />
+                <FormSelect
+                  name="currency_id"
+                  label="Currency"
+                  v-model="formBody.currency_id"
+                  :items="currencies"
+                />
               </div>
               <div class="col-md-6">
-                <FormSelect name="currency_id" label="Currency" v-model="formBody.currency_id" :items="currencies" />
+                <FormInput name="phone" label="Phone" v-model="formBody.phone" type="number" />
               </div>
-              <div class="col-12">
-                <FormInput name="amount" label="Amount" v-model="formBody.amount" type="number" />
+              <div class="col-md-6">
+                <FormSelect
+                  name="parent_id"
+                  label="Parent Company"
+                  v-model="formBody.parent_id"
+                  :items="accounts"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput name="address" label="Address" v-model="formBody.address" type="text" />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="longitude"
+                  label="Longitude"
+                  v-model="formBody.longitude"
+                  type="number"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="latitude"
+                  label="Latitude"
+                  v-model="formBody.latitude"
+                  type="number"
+                />
               </div>
             </div>
           </div>

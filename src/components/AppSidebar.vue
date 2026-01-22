@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppSidebarItem from '@/components/AppSidebarItem.vue'
+import AppFeatherIcon from './AppFeatherIcon.vue'
 const appName = import.meta.env.VITE_APP_NAME
 </script>
 
@@ -68,6 +69,47 @@ const appName = import.meta.env.VITE_APP_NAME
 
         <AppSidebarItem icon="book-open" text="Receipts" url="/receipts" />
 
+        <!-- <li class="sidebar-item">
+          <a href="#auth" data-bs-toggle="collapse" class="sidebar-link collapsed">
+            <i class="align-middle" data-feather="users"></i>
+            <span class="align-middle">Reports</span>
+          </a>
+          <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url('reports/monthly') }}">Monthly sales</a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url('reports/bi-monthly') }}">Bimonthly sales</a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url('reports/monthly-receipts') }}"
+                >Monthly receipts</a
+              >
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url('reports/bi-monthly-receipts') }}"
+                >Bimonthly Receipts</a
+              >
+            </li>
+          </ul>
+        </li> -->
+
+        <li class="sidebar-item">
+          <a href="#reports" data-bs-toggle="collapse" class="sidebar-link collapsed">
+            <AppFeatherIcon icon="users" />
+            <span class="align-middle">Reports</span>
+          </a>
+          <ul
+            id="reports"
+            class="sidebar-dropdown list-unstyled collapse"
+            data-bs-parent="#sidebar"
+          >
+            <AppSidebarItem text="Monthly sales" url="/reports/monthly" />
+            <AppSidebarItem text="Bimonthly sales" url="/reports/bi-monthly" />
+            <AppSidebarItem text="Monthly receipts" url="/reports/monthly-receipts" />
+            <AppSidebarItem text="Bimonthly Receipts" url="/reports/bi-monthly-receipts" />
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>

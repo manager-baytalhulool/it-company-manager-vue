@@ -29,6 +29,8 @@ import AccountView from '@/views/accounts/AccountView.vue'
 import ProjectView from '@/views/projects/ProjectView.vue'
 import RepositoryView from '@/views/repositories/RepositoryView.vue'
 import ReceiptView from '@/views/receipts/ReceiptView.vue'
+import InvoiceView from '@/views/invoices/InvoiceView.vue'
+import BackupFormView from '@/views/backups/BackupFormView.vue'
 
 let isInitiated: boolean = false
 
@@ -123,10 +125,32 @@ const router = createRouter({
             },
           ],
         },
+
         {
           path: 'backups',
-          name: 'backups.index',
-          component: BackupsView,
+          children: [
+            {
+              path: '',
+              name: 'backups.index',
+              component: BackupsView,
+            },
+
+            {
+              path: 'create',
+              name: 'backups.create',
+              component: BackupFormView,
+            },
+            // {
+            //   path: ':id/edit',
+            //   name: 'backups.edit',
+            //   component: BackupFormView,
+            // },
+            // {
+            //   path: ':id',
+            //   name: 'backups.show',
+            //   component: BackupView,
+            // },
+          ],
         },
 
         {
@@ -187,7 +211,6 @@ const router = createRouter({
           ],
         },
 
-
         {
           path: 'invoices',
           children: [
@@ -205,6 +228,11 @@ const router = createRouter({
               path: ':id/edit',
               name: 'invoices.edit',
               component: InvoiceFormView,
+            },
+            {
+              path: ':id',
+              name: 'invoices.show',
+              component: InvoiceView,
             },
           ],
         },

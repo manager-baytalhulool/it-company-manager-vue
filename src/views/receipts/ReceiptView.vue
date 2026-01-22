@@ -36,7 +36,7 @@ onMounted(async () => {
                   <tbody>
                     <tr>
                       <th>Project ID</th>
-                      <td>{{ receipt?.project_id }}</td>
+                      <td>{{ receipt?.project?.name }}</td>
                     </tr>
                     <tr>
                       <th>Invoice ID</th>
@@ -58,7 +58,6 @@ onMounted(async () => {
                       <th>Original Amount</th>
                       <td>{{ receipt?.original_amount }}</td>
                     </tr>
-
                   </tbody>
                 </table>
               </div>

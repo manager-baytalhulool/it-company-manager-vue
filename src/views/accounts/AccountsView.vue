@@ -18,7 +18,7 @@ const columns: IColumn<AccountIndex>[] = [
   { label: 'Name', field: 'name' },
   { label: 'Person', field: 'person' },
   { label: 'Original Amount Earned', field: 'original_amount' },
-  { label: 'Amount in PKR', field: 'amount' },
+  { label: 'Amount', field: 'amount' },
   { label: 'Actions', field: 'actions' },
 ]
 
@@ -33,7 +33,7 @@ const handleDeleteClick = (account: AccountIndex) => {
 }
 
 const handleDelete = async () => {
-  console.log("ON DELETE");
+  console.log('ON DELETE')
 
   try {
     await api.delete(`api/accounts/${selectedAccount.value!.id}`)
@@ -54,7 +54,7 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Accoun
 })
 
 onMounted(() => {
-  modalDelete = new Modal(document.getElementById('modal-delete'))
+  modalDelete = new Modal('#modal-delete')
 })
 </script>
 
@@ -86,12 +86,20 @@ onMounted(() => {
                     Edit
                   </RouterLink>
 
-                  <button @click="handleDeleteClick(account)" class="btn btn-danger btn-sm">Delete</button>
+                  <button @click="handleDeleteClick(account)" class="btn btn-danger btn-sm">
+                    Delete
+                  </button>
                 </template>
-                <template #cell-name="{ row: accountName }">
-                  <RouterLink :to="`/accounts/${accountName.id}`">
-                    {{ accountName.name }}
+                <template #cell-name="{ row: account }">
+                  <RouterLink :to="`/accounts/${account.id}`">
+                    {{ account.name }}
                   </RouterLink>
+                </template>
+                <template #cell-original_amount="{ row: account }">
+                  {{ Number(account.original_amount).toLocaleString() }} {{ account.currency.code }}
+                </template>
+                <template #cell-amount="{ row: account }">
+                  {{ Number(account.amount).toLocaleString() }} {{ account.currency.code }}
                 </template>
                 <template #table-footer>
                   <tfoot>
