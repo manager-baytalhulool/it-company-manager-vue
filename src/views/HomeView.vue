@@ -3,12 +3,26 @@ import { onMounted, ref } from 'vue'
 // import { useAuthStore } from '@/stores/authStore'
 import api from '@/plugins/axios'
 import { formatDate } from '@/utils/dateFormat'
+import HomeReceiptsChart from '@/components/home/HomeReceiptsChart.vue'
+import type { Account } from '@/types/Account'
+import type { Invoice } from '@/types/Invoice'
 
 // const authStore = useAuthStore()
 // const authUser = authStore.user!
+type HomeContent = {
+  clientsCount: number
+  pendingIncome: number
+  pendingInvoicesCount: number
+  projectsCount: number
+  monthlyReceipts: Record<string, number>
+  monthlySales: { month: string; amount: number }[]
+  accounts: Pick<Account, 'id' | 'name' | 'amount'>[]
+  markers: Pick<Account, 'id' | 'name' | 'amount'>[]
+  invoices: Pick<Invoice, 'id' | 'date' | 'project' | 'amount' | 'status'>[]
+}
 
 const isViewReady = ref<boolean>(false)
-const homeContent = ref<any>([])
+const homeContent = ref<HomeContent>({} as HomeContent)
 
 const getHomeContent = async () => {
   try {
@@ -114,7 +128,7 @@ onMounted(async () => {
         </div>
 
         <div class="col-xl-6 col-xxl-7">
-          <div class="card flex-fill w-100">
+          <!-- <div class="card flex-fill w-100">
             <div class="card-header">
               <h5 class="card-title mb-0">Receipts by month</h5>
             </div>
@@ -123,7 +137,8 @@ onMounted(async () => {
                 <canvas id="chartjs-dashboard-line"></canvas>
               </div>
             </div>
-          </div>
+          </div> -->
+          <HomeReceiptsChart :monthly-receipts-data="homeContent.monthlyReceipts" />
         </div>
       </div>
 
@@ -143,7 +158,7 @@ onMounted(async () => {
 
                 <table class="table mb-0">
                   <tbody>
-                    <tr v-for="(account, i) in getFirstThreeAccounts()" :key="account.name">
+                    <tr v-for="account in getFirstThreeAccounts()" :key="account.name">
                       <td>
                         {{ account.name }}
                       </td>

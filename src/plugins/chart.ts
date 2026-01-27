@@ -1,0 +1,26 @@
+import {
+  Chart,
+  BarController,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineController,
+  PointElement,
+  LineElement,
+} from 'chart.js'
+
+Chart.register(
+  BarController,
+  LineController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+)
+
+Chart.defaults.color = window.theme['gray-600']
+Chart.defaults.font.family = "'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+window.Chart = Chart
+
+export default Chart

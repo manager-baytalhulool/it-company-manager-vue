@@ -10,9 +10,8 @@ const initializeSimplebar = () => {
   const simplebarElement = document.getElementsByClassName('js-simplebar')[0]
 
   if (simplebarElement) {
-    const simplebarInstance = new SimpleBar(
-      (<any>document).getElementsByClassName('js-simplebar')[0]
-    )
+    const jsSimplebarElement = document.getElementsByClassName('js-simplebar')[0] as HTMLElement
+    const simplebarInstance = new SimpleBar(jsSimplebarElement)
 
     /* Recalculate simplebar on sidebar dropdown toggle */
     const sidebarDropdowns = document.querySelectorAll('.js-sidebar [data-bs-parent]')
@@ -47,5 +46,5 @@ const initializeSidebarCollapse = () => {
 // document.addEventListener('DOMContentLoaded', () => initialize())
 
 export default {
-  initialize
+  initialize,
 }
