@@ -7,6 +7,7 @@ import {
   LineController,
   PointElement,
   LineElement,
+  Filler,
 } from 'chart.js'
 
 Chart.register(
@@ -17,6 +18,7 @@ Chart.register(
   LinearScale,
   PointElement,
   LineElement,
+  Filler,
 )
 
 Chart.defaults.color = window.theme['gray-600']
