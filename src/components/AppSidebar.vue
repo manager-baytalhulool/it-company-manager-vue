@@ -104,8 +104,8 @@ const appName = import.meta.env.VITE_APP_NAME
             class="sidebar-dropdown list-unstyled collapse"
             data-bs-parent="#sidebar"
           >
-            <AppSidebarItem text="Monthly sales" url="/reports/monthly" />
-            <AppSidebarItem text="Bimonthly sales" url="/reports/bi-monthly" />
+            <AppSidebarItem text="Monthly sales" url="/reports/monthly-sales" />
+            <AppSidebarItem text="Bimonthly sales" url="/reports/bi-monthly-sales" />
             <AppSidebarItem text="Monthly receipts" url="/reports/monthly-receipts" />
             <AppSidebarItem text="Bimonthly Receipts" url="/reports/bi-monthly-receipts" />
           </ul>

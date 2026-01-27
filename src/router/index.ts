@@ -31,6 +31,10 @@ import RepositoryView from '@/views/repositories/RepositoryView.vue'
 import ReceiptView from '@/views/receipts/ReceiptView.vue'
 import InvoiceView from '@/views/invoices/InvoiceView.vue'
 import BackupFormView from '@/views/backups/BackupFormView.vue'
+import MonthlySalesView from '@/views/reports/MonthlySalesView.vue'
+import BimonthlySalesView from '@/views/reports/BimonthlySalesView.vue'
+import MonthlyReceiptsView from '@/views/reports/MonthlyReceiptsView.vue'
+import BimonthlyReceiptsView from '@/views/reports/BimonthlyReceiptsView.vue'
 
 let isInitiated: boolean = false
 
@@ -72,6 +76,7 @@ const router = createRouter({
         // }
       ],
     },
+
     {
       path: '/',
       component: MasterLayout,
@@ -211,6 +216,32 @@ const router = createRouter({
           ],
         },
 
+        // {
+        //   path: 'reports',
+        //   children: [
+        //     // {
+        //     //   path: '',
+        //     //   name: 'repositories.index',
+        //     //   component: RepositoriesView,
+        //     // },
+        //     // {
+        //     //   path: 'create',
+        //     //   name: 'repositories.create',
+        //     //   component: RepositoryFormView,
+        //     // },
+        //     // {
+        //     //   path: ':id/edit',
+        //     //   name: 'repositories.edit',
+        //     //   component: RepositoryFormView,
+        //     // },
+        //     // {
+        //     //   path: ':id/',
+        //     //   name: 'repositories.show',
+        //     //   component: RepositoryView,
+        //     // },
+        //   ],
+        // },
+
         {
           path: 'invoices',
           children: [
@@ -259,6 +290,32 @@ const router = createRouter({
               path: ':id',
               name: 'receipts.show',
               component: ReceiptView,
+            },
+          ],
+        },
+
+        {
+          path: 'reports',
+          children: [
+            {
+              path: 'monthly-sales',
+              name: 'reports.monthly-sales',
+              component: MonthlySalesView,
+            },
+            {
+              path: 'bi-monthly-sales',
+              name: 'reports.bimonthly-sales',
+              component: BimonthlySalesView,
+            },
+            {
+              path: 'monthly-receipts',
+              name: 'reports.monthly-receipts',
+              component: MonthlyReceiptsView,
+            },
+            {
+              path: 'bi-monthly-receipts',
+              name: 'reports.bimonthly-receipts',
+              component: BimonthlyReceiptsView,
             },
           ],
         },
