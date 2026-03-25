@@ -51,11 +51,21 @@ const handleDelete = async () => {
   modalDelete!.hide()
 }
 
+// , $event: Event
+const handleReceivedClick = (invoice: InvoiceIndex, index: number) => {
+  selectedInvoice.value = invoice
+  // selectedInvoiceIndex = index
+  receiptFormModal.show()
+}
+
 const { pagination, handlePageChange, handleSearchChange } = useDataTable<InvoiceIndex>({
   fetchFunction: getInvoices,
 })
 onMounted(() => {
-  modalDelete = new Modal(document.getElementById('modal-delete'))
+  const deleteModalEl = document.getElementById('modal-delete')
+  if (deleteModalEl) {
+    modalDelete = new Modal(deleteModalEl)
+  }
 })
 </script>
 
@@ -100,14 +110,19 @@ onMounted(() => {
                   <!-- {{ invoice.project?.account?.currency?.code }} -->
                 </template>
 
-                <template #cell-actions="{ row: invoice }">
+                <template #cell-actions="{ row: invoice, rowIndex: i }">
                   <RouterLink :to="`/invoices/${invoice.id}/edit`" class="btn btn-info btn-sm me-2">
                     Edit
                   </RouterLink>
 
-                  <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
-                    Delete
-                  </button>
+                  <template v-if="invoice.status === 'pending'">
+                    <button class="btn btn-primary mx-1" @click="handleReceivedClick(invoice, i)">
+                      Receive
+                    </button>
+                    <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
+                      Delete
+                    </button>
+                  </template>
                 </template>
                 <template #cell-name="{ row: invoiceName }">
                   <RouterLink :to="`/invoices/${invoiceName.id}`">
@@ -121,6 +136,42 @@ onMounted(() => {
       </div>
     </div>
   </main>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="receipt-form-modal"
+    tabindex="-1"
+    aria-labelledby="receipt-form-modal-label"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="receipt-form-modal-label">Receipts</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" v-if="selectedInvoice">
+          <receipt-form
+            :action="`${action}/receipts`"
+            :invoice="selectedInvoice"
+            :projects="[selectedInvoice.project]"
+            :key="selectedInvoice.id"
+            @onSubmit="handleReceiptSubmit"
+          ></receipt-form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <AppModalDelete @onSubmit="handleDelete" />
 </template>

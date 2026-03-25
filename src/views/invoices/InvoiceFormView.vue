@@ -130,16 +130,11 @@ onMounted(async () => {
                 />
               </div>
               <div class="col-md-6">
-                <FormInput
-                  name="amount"
-                  label="Amount Remove Status"
-                  v-model="formBody.amount"
-                  type="number"
-                />
+                <FormInput name="amount" label="Amount" v-model="formBody.amount" type="number" />
               </div>
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <FormInput name="status" label="Status" v-model="formBody.status" type="text" />
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card-footer text-end">
