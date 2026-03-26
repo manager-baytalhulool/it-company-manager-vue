@@ -8,11 +8,15 @@ import type { IColumn, PaginationParams } from '@/types/Pagination'
 import { Modal } from 'bootstrap'
 import { onMounted, ref } from 'vue'
 import { formatDate } from '@/utils/dateFormat'
+import ReceiptForm from '@/components/ReceiptForm.vue'
 
 const invoices = ref<InvoiceIndex[]>([])
 const selectedInvoice = ref<InvoiceIndex | null>(null)
 
 let modalDelete: Modal | null = null
+
+const selectedInvoiceIndex = ref<number | null>(null)
+let receiptFormModal: Modal | null = null
 
 const columns: IColumn<InvoiceIndex>[] = [
   { label: '#', field: 'id' },
@@ -51,11 +55,18 @@ const handleDelete = async () => {
   modalDelete!.hide()
 }
 
+const handleReceiptSubmit = () => {
+  if (selectedInvoiceIndex.value !== null) {
+    pagination.value.data[selectedInvoiceIndex.value].status = 'paid'
+  }
+  receiptFormModal?.hide()
+}
+
 // , $event: Event
 const handleReceivedClick = (invoice: InvoiceIndex, index: number) => {
   selectedInvoice.value = invoice
-  // selectedInvoiceIndex = index
-  receiptFormModal.show()
+  selectedInvoiceIndex.value = index
+  receiptFormModal?.show()
 }
 
 const { pagination, handlePageChange, handleSearchChange } = useDataTable<InvoiceIndex>({
@@ -65,6 +76,10 @@ onMounted(() => {
   const deleteModalEl = document.getElementById('modal-delete')
   if (deleteModalEl) {
     modalDelete = new Modal(deleteModalEl)
+  }
+  const receiptModalEl = document.getElementById('receipt-form-modal')
+  if (receiptModalEl) {
+    receiptFormModal = new Modal(receiptModalEl)
   }
 })
 </script>
@@ -111,12 +126,18 @@ onMounted(() => {
                 </template>
 
                 <template #cell-actions="{ row: invoice, rowIndex: i }">
+                  <RouterLink :to="`/invoices/${invoice.id}`" class="btn btn-success btn-sm me-2">
+                    View
+                  </RouterLink>
                   <RouterLink :to="`/invoices/${invoice.id}/edit`" class="btn btn-info btn-sm me-2">
                     Edit
                   </RouterLink>
 
                   <template v-if="invoice.status === 'pending'">
-                    <button class="btn btn-primary mx-1" @click="handleReceivedClick(invoice, i)">
+                    <button
+                      class="btn btn-primary btn-sm me-2"
+                      @click="handleReceivedClick(invoice, i)"
+                    >
                       Receive
                     </button>
                     <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
@@ -158,10 +179,10 @@ onMounted(() => {
         </div>
         <div class="modal-body" v-if="selectedInvoice">
           <receipt-form
-            :action="`${action}/receipts`"
+            action="/api/receipts"
             :invoice="selectedInvoice"
-            :projects="[selectedInvoice.project]"
-            :key="selectedInvoice.id"
+            :projects="selectedInvoice ? [selectedInvoice.project] : []"
+            :key="selectedInvoice?.id"
             @onSubmit="handleReceiptSubmit"
           ></receipt-form>
         </div>
