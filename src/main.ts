@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import 'vue-select/dist/vue-select.css'
 
 import '@/assets/scss/app.scss'
 import '@/assets/js/vendor'

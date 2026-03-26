@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
-import FormSelect from '@/components/form/FormSelect.vue'
+import vSelect from 'vue-select'
 
 const route = useRoute()
 const id = route.params.id
@@ -92,20 +92,26 @@ onMounted(async () => {
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-                <FormSelect
-                  name="project_id"
-                  label="Project"
+                <label class="form-label">Project</label>
+                <v-select
+                  :options="projects"
+                  label="name"
+                  :reduce="(option: any) => option.id"
                   v-model="formBody.project_id"
-                  :items="projects"
+                  :clearable="false"
+                  placeholder="Select Project"
                 />
               </div>
               <div class="col-md-6">
-                <FormSelect
-                  name="invoice_id"
-                  label="Invoice"
+                <label class="form-label">Invoice</label>
+                <v-select
+                  :options="invoices"
+                  label="name"
+                  :reduce="(option: any) => option.id"
                   v-model="formBody.invoice_id"
-                  :items="invoices"
                   :disabled="isEditMode"
+                  :clearable="false"
+                  placeholder="Select Invoice"
                 />
               </div>
               <div class="col-md-6">

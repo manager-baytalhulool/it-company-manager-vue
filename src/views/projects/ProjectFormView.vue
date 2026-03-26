@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
-import FormSelect from '@/components/form/FormSelect.vue'
+import vSelect from 'vue-select'
 
 const route = useRoute()
 const id = route.params.id
@@ -20,14 +20,14 @@ const formBody = ref({
   original_amount: '',
   paid: '',
   live_url: '',
-  started_at: ''
+  started_at: '',
 })
 
 const getCurrencies = async () => {
   const response = await api.get('/api/currencies', {
     params: {
-      for: 'select'
-    }
+      for: 'select',
+    },
   })
   currencies.value = response.data.data.currencies
 }
@@ -35,8 +35,8 @@ const getCurrencies = async () => {
 const getAccounts = async () => {
   const response = await api.get('/api/accounts', {
     params: {
-      for: 'select'
-    }
+      for: 'select',
+    },
   })
   accounts.value = response.data.data.accounts
 }
@@ -60,7 +60,7 @@ const getProject = async () => {
     original_amount: project.original_amount,
     currency_id: project.currency_id,
     amount: project.amount,
-    started_at: project.started_at
+    started_at: project.started_at,
   }
 }
 
@@ -90,20 +90,76 @@ onMounted(async () => {
       <h1 class="h3 mb-3">Projects</h1>
       <div class="card">
         <form @submit.prevent="handleSubmit">
-          <div class="card-header"><h5 class="card-title mb-0">{{ isEditMode ? 'Edit' : 'Add' }} Project</h5></div>
+          <div class="card-header">
+            <h5 class="card-title mb-0">{{ isEditMode ? 'Edit' : 'Add' }} Project</h5>
+          </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6"><FormInput name="name" label="Project Name" v-model="formBody.name" type="text" /></div>
-              <div class="col-md-6"><FormSelect name="account_id" label="Account" v-model="formBody.account_id" :items="accounts" /></div>
-              <div class="col-md-6"><FormSelect name="currency_id" label="Currency" v-model="formBody.currency_id" :items="currencies" /></div>
-              <div class="col-md-6"><FormInput name="paid" label="Paid" v-model="formBody.paid" type="number" /></div>
-              <div class="col-md-6"><FormInput name="amount" label="Amount (PKR)" v-model="formBody.amount" type="number" /></div>
-              <div class="col-md-6"><FormInput name="original_amount" label="Original Amount" v-model="formBody.original_amount" type="number" /></div>
-              <div class="col-md-6"><FormInput name="live_url" label="Live URL" v-model="formBody.live_url" type="text" /></div>
-              <div class="col-md-6"><FormInput name="started_at" label="Start Date" v-model="formBody.started_at" type="date" /></div>
+              <div class="col-md-6">
+                <FormInput name="name" label="Project Name" v-model="formBody.name" type="text" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Account</label>
+                <v-select
+                  :options="accounts"
+                  label="name"
+                  :reduce="(option: any) => option.id"
+                  v-model="formBody.account_id"
+                  :clearable="false"
+                  placeholder="Select Account"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Currency</label>
+                <v-select
+                  :options="currencies"
+                  label="name"
+                  :reduce="(option: any) => option.id"
+                  v-model="formBody.currency_id"
+                  :clearable="false"
+                  placeholder="Select Currency"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput name="paid" label="Paid" v-model="formBody.paid" type="number" />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="amount"
+                  label="Amount (PKR)"
+                  v-model="formBody.amount"
+                  type="number"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="original_amount"
+                  label="Original Amount"
+                  v-model="formBody.original_amount"
+                  type="number"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="live_url"
+                  label="Live URL"
+                  v-model="formBody.live_url"
+                  type="text"
+                />
+              </div>
+              <div class="col-md-6">
+                <FormInput
+                  name="started_at"
+                  label="Start Date"
+                  v-model="formBody.started_at"
+                  type="date"
+                />
+              </div>
             </div>
           </div>
-          <div class="card-footer text-end"><button type="submit" class="btn btn-primary">Save</button></div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </form>
       </div>
     </div>
