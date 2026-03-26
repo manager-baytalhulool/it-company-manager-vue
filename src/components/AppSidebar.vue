@@ -63,6 +63,12 @@ const appName = import.meta.env.VITE_APP_NAME
 
         <AppSidebarItem icon="box" text="Projects" url="/projects" />
 
+        <AppSidebarItem icon="box" text="Products" url="/products" />
+
+        <AppSidebarItem icon="minus-circle" text="Expenses" url="/expenses" />
+
+        <AppSidebarItem icon="credit-card" text="Loans" url="/loans" />
+
         <AppSidebarItem icon="git-merge" text="Repositories" url="/repositories" />
 
         <AppSidebarItem icon="paperclip" text="Invoices" url="/invoices" />

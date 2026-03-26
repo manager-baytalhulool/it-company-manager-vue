@@ -20,6 +20,13 @@ import CurrenciesView from '@/views/currencies/CurrenciesView.vue'
 import ProjectsView from '@/views/projects/ProjectsView.vue'
 import ProjectFormView from '@/views/projects/ProjectFormView.vue'
 import RepositoriesView from '@/views/repositories/RepositoriesView.vue'
+import ProductsView from '@/views/products/ProductsView.vue'
+import ProductFormView from '@/views/products/ProductFormView.vue'
+import ProductView from '@/views/products/ProductView.vue'
+import ExpensesView from '@/views/expenses/ExpensesView.vue'
+import ExpenseFormView from '@/views/expenses/ExpenseFormView.vue'
+import LoansView from '@/views/loans/LoansView.vue'
+import LoanFormView from '@/views/loans/LoanFormView.vue'
 import RepositoryFormView from '@/views/repositories/RepositoryFormView.vue'
 import InvoicesView from '@/views/invoices/InvoicesView.vue'
 import ReceiptsView from '@/views/receipts/ReceiptsView.vue'
@@ -186,6 +193,73 @@ const router = createRouter({
               path: ':id',
               name: 'projects.show',
               component: ProjectView,
+            },
+          ],
+        },
+
+        {
+          path: 'products',
+          children: [
+            {
+              path: '',
+              name: 'products.index',
+              component: ProductsView,
+            },
+            {
+              path: 'create',
+              name: 'products.create',
+              component: ProductFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'products.edit',
+              component: ProductFormView,
+            },
+            {
+              path: ':id',
+              name: 'products.show',
+              component: ProductView,
+            },
+          ],
+        },
+
+        {
+          path: 'expenses',
+          children: [
+            {
+              path: '',
+              name: 'expenses.index',
+              component: ExpensesView,
+            },
+            {
+              path: 'create',
+              name: 'expenses.create',
+              component: ExpenseFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'expenses.edit',
+              component: ExpenseFormView,
+            },
+          ],
+        },
+        {
+          path: 'loans',
+          children: [
+            {
+              path: '',
+              name: 'loans.index',
+              component: LoansView,
+            },
+            {
+              path: 'create',
+              name: 'loans.create',
+              component: LoanFormView,
+            },
+            {
+              path: ':id/edit',
+              name: 'loans.edit',
+              component: LoanFormView,
             },
           ],
         },

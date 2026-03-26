@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import type { BaseEntity } from '@/types/BaseEntity';
+import type { BaseEntity } from '@/types/BaseEntity'
 import { toRefs } from 'vue'
 
 const props = withDefaults(
-  defineProps<{ name: string; label: string; modelValue: any; items: BaseEntity[]; disabled?: boolean }>(),
+  defineProps<{
+    name: string
+    label: string
+    modelValue: any
+    items: BaseEntity[]
+    disabled?: boolean
+  }>(),
   { disabled: false },
 )
 
