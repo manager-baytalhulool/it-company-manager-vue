@@ -15,7 +15,8 @@ let modalDelete: Modal | null = null
 
 const columns: IColumn<RepositoryIndex>[] = [
   { label: '#', field: 'id' },
-  { label: 'Project ID', field: 'project_id' },
+  { label: 'Type', field: 'repositable_type' },
+  { label: 'Repository', field: 'repositable' },
   { label: 'Name', field: 'name' },
   { label: 'URL', field: 'url' },
   { label: 'Provider', field: 'provider' },
@@ -56,9 +57,8 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Reposi
 })
 
 onMounted(() => {
-  modalDelete = new Modal(document.getElementById('modal-delete'))
+  modalDelete = new Modal(document.getElementById('modal-delete')!)
 })
-
 </script>
 
 <template>
@@ -97,9 +97,15 @@ onMounted(() => {
                     Delete
                   </button>
                 </template>
+                <template #cell-repositable_type="{ row }">
+                  {{ row.repositable_type === 'App\\Models\\Project' ? 'Project' : 'Product' }}
+                </template>
+                <template #cell-repositable="{ row }">
+                  {{ row.repositable?.name || 'N/A' }}
+                </template>
                 <template #cell-name="{ row: repositoryName }">
                   <RouterLink :to="`/repositories/${repositoryName.id}`">
-                    {{ repositoryName.id }}
+                    {{ repositoryName.name }}
                   </RouterLink>
                 </template>
               </AppDataTable>

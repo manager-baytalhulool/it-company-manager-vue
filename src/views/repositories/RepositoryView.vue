@@ -39,22 +39,27 @@ onMounted(async () => {
                       <td>{{ repository?.name }}</td>
                     </tr>
                     <tr>
-                      <th>Account ID</th>
-                      <td>{{ repository?.project_id }}</td>
+                      <th>Type</th>
+                      <td>
+                        {{
+                          repository?.repositable_type === 'App\\Models\\Project'
+                            ? 'Project'
+                            : 'Product'
+                        }}
+                      </td>
                     </tr>
                     <tr>
-                      <th>Currency ID</th>
+                      <th>Parent Name</th>
+                      <td>{{ repository?.repositable?.name || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th>URL</th>
                       <td>{{ repository?.url }}</td>
                     </tr>
-                    <!-- <tr>
-                      <th>Currency</th>
-                      <td>{{ project?.currency }}</td>
-                    </tr> -->
                     <tr>
-                      <th>Original Amount Earned</th>
+                      <th>Provider</th>
                       <td>{{ repository?.provider }}</td>
                     </tr>
-
                   </tbody>
                 </table>
               </div>

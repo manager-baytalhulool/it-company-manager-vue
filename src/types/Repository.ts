@@ -1,8 +1,8 @@
-
-
 export interface Repository {
   id: number
-  project_id: number
+  repositable_id: number
+  repositable_type: string
+  repositable?: { id: number; name: string }
   name: string
   url: string
   provider: string
@@ -12,5 +12,5 @@ export interface Repository {
 
 export type RepositoryIndex = Pick<
   Repository,
-  'id' | 'project_id' | 'name' | 'url' | 'provider'
+  'id' | 'name' | 'url' | 'provider' | 'repositable_id' | 'repositable_type' | 'repositable'
 >

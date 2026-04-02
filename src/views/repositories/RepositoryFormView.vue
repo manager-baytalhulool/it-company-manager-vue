@@ -12,11 +12,21 @@ const isEditMode = id ? true : false
 
 const projects = ref<any[]>([])
 const formBody = ref({
-  project_id: '',
+  repositable_type: 'App\\Models\\Project',
+  repositable_id: '',
   name: '',
   url: '',
   provider: '',
 })
+
+const products = ref([])
+
+const getProducts = async () => {
+  const response = await api.get('/api/products', {
+    params: { for: 'select' },
+  })
+  products.value = response.data.data.products
+}
 
 const getProjects = async () => {
   const response = await api.get('/api/projects', {
@@ -26,20 +36,13 @@ const getProjects = async () => {
   })
   projects.value = response.data.data.projects
 }
-// const fetchData = async () => {
-//   const [accRes, currRes] = await Promise.all([
-//     api.get('/api/accounts'),
-//     api.get('/api/currencies', { params: { for: 'select' } })
-//   ])
-//   accounts.value = accRes.data.data.accounts.data
-//   currencies.value = currRes.data.data.currencies
-// }
 
 const getRepository = async () => {
   const response = await api.get(`/api/repositories/${id}`)
   const repository = response.data.data.repository
   formBody.value = {
-    project_id: repository.project_id,
+    repositable_type: repository.repositable_type,
+    repositable_id: repository.repositable_id,
     name: repository.name,
     url: repository.url,
     provider: repository.provider,
@@ -61,6 +64,7 @@ const handleSubmit = async () => {
 
 onMounted(async () => {
   await getProjects()
+  await getProducts()
   if (isEditMode) await getRepository()
 })
 </script>
@@ -77,15 +81,37 @@ onMounted(async () => {
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-                <label class="form-label">Project</label>
+                <label class="form-label">Type</label>
+                <select
+                  class="form-control"
+                  v-model="formBody.repositable_type"
+                  :disabled="isEditMode"
+                >
+                  <option value="App\\Models\\Project">Project</option>
+                  <option value="App\\Models\\Product">Product</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Parent</label>
                 <v-select
+                  v-if="formBody.repositable_type === 'App\\Models\\Project'"
                   :options="projects"
                   label="name"
                   :reduce="(option: any) => option.id"
-                  v-model="formBody.project_id"
+                  v-model="formBody.repositable_id"
                   :disabled="isEditMode"
                   :clearable="false"
                   placeholder="Select Project"
+                />
+                <v-select
+                  v-else
+                  :options="products"
+                  label="name"
+                  :reduce="(option: any) => option.id"
+                  v-model="formBody.repositable_id"
+                  :disabled="isEditMode"
+                  :clearable="false"
+                  placeholder="Select Product"
                 />
               </div>
               <div class="col-md-6">
