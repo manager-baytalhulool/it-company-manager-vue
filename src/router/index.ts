@@ -23,6 +23,11 @@ import RepositoriesView from '@/views/repositories/RepositoriesView.vue'
 import ProductsView from '@/views/products/ProductsView.vue'
 import ProductFormView from '@/views/products/ProductFormView.vue'
 import ProductView from '@/views/products/ProductView.vue'
+import ServicesView from '@/views/services/ServicesView.vue'
+import ServiceFormView from '@/views/services/ServiceFormView.vue'
+import TechnologiesView from '@/views/technologies/TechnologiesView.vue'
+import TechnologyFormView from '@/views/technologies/TechnologyFormView.vue'
+
 import ExpensesView from '@/views/expenses/ExpensesView.vue'
 import ExpenseFormView from '@/views/expenses/ExpenseFormView.vue'
 import LoansView from '@/views/loans/LoansView.vue'
@@ -220,6 +225,23 @@ const router = createRouter({
               name: 'products.show',
               component: ProductView,
             },
+          ],
+        },
+
+        {
+          path: 'services',
+          children: [
+            { path: '', name: 'services.index', component: ServicesView },
+            { path: 'create', name: 'services.create', component: ServiceFormView },
+            { path: ':id/edit', name: 'services.edit', component: ServiceFormView },
+          ],
+        },
+        {
+          path: 'technologies',
+          children: [
+            { path: '', name: 'technologies.index', component: TechnologiesView },
+            { path: 'create', name: 'technologies.create', component: TechnologyFormView },
+            { path: ':id/edit', name: 'technologies.edit', component: TechnologyFormView },
           ],
         },
 
