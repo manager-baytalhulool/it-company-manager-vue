@@ -153,7 +153,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col-12">
@@ -175,22 +175,21 @@ onMounted(async () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(receipt, i) in receipts" :key="receipt.id">
+                    <tr v-for="(receipt, i) in project?.receipts" :key="receipt.id">
                       <th>{{ i + 1 }}</th>
                       <td>{{ receipt.date }}</td>
-                      <td>{{ receipt.project?.name }}</td>
-                      <td>{{ receipt.invoice?.description }}</td>
-                      <td>{{ receipt.original_amount }} {{ account.currency }}</td>
+                      <td>{{ project?.name }}</td>
+                      <td>{{ receipt.description }}</td>
+                      <td>{{ receipt.original_amount }} {{ project?.currency?.code }}</td>
                       <td>{{ receipt.amount }}</td>
                     </tr>
                   </tbody>
-
                 </table>
               </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </main>
 </template>

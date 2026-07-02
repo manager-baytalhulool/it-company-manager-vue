@@ -1,5 +1,6 @@
-import type { Account } from "./Account"
-import type { Currency } from "./Currency"
+import type { Account } from './Account'
+import type { Currency } from './Currency'
+import type { Receipt } from './Receipt'
 
 export interface Project {
   id: number
@@ -20,10 +21,19 @@ export interface Project {
   created_at: string
   updated_at: string
   deleted_at: string | null
+  receipts?: Receipt[]
 }
 
 export type ProjectIndex = Pick<
   Project,
-  'id' | 'account_id' | 'currency_id' | 'name' | 'amount' | 'original_amount' | 'paid' | 'live_url' | 'account' | 'currency'
+  | 'id'
+  | 'account_id'
+  | 'currency_id'
+  | 'name'
+  | 'amount'
+  | 'original_amount'
+  | 'paid'
+  | 'live_url'
+  | 'account'
+  | 'currency'
 >
-
