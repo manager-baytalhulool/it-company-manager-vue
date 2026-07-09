@@ -20,8 +20,8 @@ let receiptFormModal: Modal | null = null
 
 const columns: IColumn<InvoiceIndex>[] = [
   { label: '#', field: 'id' },
-  { label: 'Project ID', field: 'project_id' },
-  { label: 'Currency ID', field: 'currency_id' },
+  { label: 'Project', field: 'project' },
+  { label: 'Currency', field: 'currency' },
   { label: 'Date', field: 'date' },
   { label: 'Due Date', field: 'due_date' },
   { label: 'Description', field: 'description' },
@@ -113,6 +113,12 @@ onMounted(() => {
                     {{ invoiceId.id }}
                   </RouterLink>
                 </template>
+                <template #cell-project="{ row: invoice }">
+                  {{ invoice.project?.name }}
+                </template>
+                <template #cell-currency="{ row: invoice }">
+                  {{ invoice.currency?.name }}
+                </template>
                 <template #cell-date="{ row: invoice }">
                   {{ formatDate(invoice.date) }}
                 </template>
@@ -129,7 +135,11 @@ onMounted(() => {
                   <RouterLink :to="`/invoices/${invoice.id}`" class="btn btn-success btn-sm me-2">
                     View
                   </RouterLink>
-                  <RouterLink :to="`/invoices/${invoice.id}/edit`" class="btn btn-info btn-sm me-2">
+                  <RouterLink
+                    v-if="invoice.status !== 'paid'"
+                    :to="`/invoices/${invoice.id}/edit`"
+                    class="btn btn-info btn-sm me-2"
+                  >
                     Edit
                   </RouterLink>
 

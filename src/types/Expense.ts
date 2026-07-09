@@ -6,4 +6,4 @@ export interface Expense {
   updated_at: string
 }
 
-export type ExpenseIndex = Pick<Expense, 'id' | 'description' | 'amount'>
+export type ExpenseIndex = Pick<Expense, 'id' | 'description' | 'amount' | 'created_at'>

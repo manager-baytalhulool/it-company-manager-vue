@@ -7,6 +7,7 @@ import type { ExpenseIndex } from '@/types/Expense'
 import type { IColumn, PaginationParams } from '@/types/Pagination'
 import { Modal } from 'bootstrap'
 import { onMounted, ref } from 'vue'
+import { formatDate } from '@/utils/dateFormat'
 
 const expenses = ref<ExpenseIndex[]>([])
 const selectedExpense = ref<ExpenseIndex | null>(null)
@@ -15,6 +16,8 @@ let modalDelete: Modal | null = null
 
 const columns: IColumn<ExpenseIndex>[] = [
   { label: '#', field: 'id' },
+  { label: 'Date', field: 'created_at' },
+
   { label: 'Description', field: 'description' },
   { label: 'Amount', field: 'amount' },
   { label: 'Actions', field: 'actions' },
@@ -76,6 +79,10 @@ onMounted(() => {
                 @page-change="handlePageChange"
                 :columns="columns"
               >
+                <template #cell-created_at="{ row: expense }">
+                  {{ formatDate(expense.created_at) }}
+                </template>
+
                 <template #cell-amount="{ row: expense }">
                   {{ Number(expense.amount).toLocaleString() }}
                 </template>

@@ -5,6 +5,7 @@ export interface Invoice {
   project: Project
   project_id: number
   currency_id: number
+  currency: { id: number; name: string; code: string }
   date: string
   due_date: string
   description: string
@@ -21,6 +22,7 @@ export type InvoiceIndex = Pick<
   | 'project'
   | 'project_id'
   | 'currency_id'
+  | 'currency'
   | 'date'
   | 'due_date'
   | 'description'

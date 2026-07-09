@@ -118,24 +118,24 @@ onMounted(async () => {
                   <tr>
                     <td>{{ invoice.description }}</td>
                     <td class="text-end">
-                      {{ invoice.project.account.currency }} {{ invoice.amount }}
+                      {{ invoice.project.account.currency.code }} {{ invoice.amount }}
                     </td>
                     <td class="text-end">
-                      {{ invoice.project.account.currency }} {{ invoice.amount }}
+                      {{ invoice.project.account.currency.code }} {{ invoice.amount }}
                     </td>
                   </tr>
                   <tr>
                     <th>&nbsp;</th>
                     <th>Subtotal</th>
                     <th class="text-end">
-                      {{ invoice.project.account.currency }} {{ invoice.amount }}
+                      {{ invoice.project.account.currency.code }} {{ invoice.amount }}
                     </th>
                   </tr>
                   <tr>
                     <th>&nbsp;</th>
                     <th>Total</th>
                     <th class="text-end">
-                      {{ invoice.project.account.currency }} {{ invoice.amount }}
+                      {{ invoice.project.account.currency.code }} {{ invoice.amount }}
                     </th>
                   </tr>
                 </tbody>
