@@ -56,7 +56,7 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Receip
 })
 
 onMounted(() => {
-  modalDelete = new Modal(document.getElementById('modal-delete'))
+  modalDelete = new Modal(document.getElementById('modal-delete')!)
 })
 </script>
 

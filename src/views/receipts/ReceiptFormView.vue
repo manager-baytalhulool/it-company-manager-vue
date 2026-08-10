@@ -10,8 +10,8 @@ const id = route.params.id
 const router = useRouter()
 const isEditMode = id ? true : false
 
-const projects = ref([])
-const invoices = ref([])
+const projects = ref<any[]>([])
+const invoices = ref<any[]>([])
 const formBody = ref({
   project_id: '',
   invoice_id: '',

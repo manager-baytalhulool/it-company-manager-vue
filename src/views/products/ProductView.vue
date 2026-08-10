@@ -34,13 +34,17 @@ onMounted(getProduct)
               <tr>
                 <th>Demo URL</th>
                 <td>
-                  <a :href="product.demo_url" target="_blank">{{ product.demo_url }}</a>
+                  <a :href="product.demo_url ?? undefined" target="_blank">{{
+                    product.demo_url
+                  }}</a>
                 </td>
               </tr>
               <tr>
                 <th>Download URL</th>
                 <td>
-                  <a :href="product.download_url" target="_blank">{{ product.download_url }}</a>
+                  <a :href="product.download_url ?? undefined" target="_blank">{{
+                    product.download_url
+                  }}</a>
                 </td>
               </tr>
               <tr>

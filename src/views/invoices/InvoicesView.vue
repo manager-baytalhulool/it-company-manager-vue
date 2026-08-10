@@ -57,7 +57,7 @@ const handleDelete = async () => {
 
 const handleReceiptSubmit = () => {
   if (selectedInvoiceIndex.value !== null) {
-    pagination.value.data[selectedInvoiceIndex.value].status = 'paid'
+    pagination.value.data[selectedInvoiceIndex.value]!.status = 'paid'
   }
   receiptFormModal?.hide()
 }

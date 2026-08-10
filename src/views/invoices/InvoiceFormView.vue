@@ -4,14 +4,13 @@ import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
 import vSelect from 'vue-select'
-import type { BaseEntity } from '@/types/BaseEntity'
 
 const route = useRoute()
 const id = route.params.id
 const router = useRouter()
 const isEditMode = id ? true : false
 
-const projects = ref<BaseEntity[]>([])
+const projects = ref<any[]>([])
 const currencies = ref<any[]>([])
 const formBody = ref({
   project_id: '',

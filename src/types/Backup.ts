@@ -1,8 +1,9 @@
 interface Backup {
-  id: string
+  id: number
   name: string
   file_path: string
   size: number
+  status: 'pending' | 'completed' | 'failed'
   created_at: Date
   updated_at: Date
   deleted_at?: Date | null

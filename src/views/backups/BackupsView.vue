@@ -83,7 +83,7 @@ const { pagination, handlePageChange, handleSearchChange } = useDataTable<Backup
 })
 
 onMounted(() => {
-  modalDelete = new Modal(document.getElementById('modal-delete'))
+  modalDelete = new Modal(document.getElementById('modal-delete')!)
 })
 </script>
 <template>

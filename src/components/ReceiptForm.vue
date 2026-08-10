@@ -4,12 +4,12 @@ import dayjs from 'dayjs'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
 import FormSelect from '@/components/form/FormSelect.vue'
-import type { Invoice } from '@/types/Invoice'
+import type { InvoiceIndex } from '@/types/Invoice'
 import type { Project } from '@/types/Project'
 
 const props = defineProps<{
   action?: string
-  invoice?: Invoice
+  invoice?: InvoiceIndex
   projects?: Project[]
   receipt?: any
 }>()

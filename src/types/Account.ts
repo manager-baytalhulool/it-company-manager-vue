@@ -1,4 +1,4 @@
-import type { BaseEntity } from './BaseEntity'
+import type { CurrencyIndex } from './Currency'
 import type { Project } from './Project'
 
 export interface Account {
@@ -9,7 +9,7 @@ export interface Account {
   amount: number
   created_at: string
   updated_at: string
-  currency: BaseEntity
+  currency: CurrencyIndex
   projects_count: number
   phone: string | null
   projects: Project[]
