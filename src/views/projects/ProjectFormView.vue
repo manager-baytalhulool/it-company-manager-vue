@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
@@ -23,6 +23,29 @@ const formBody = ref({
   started_at: '',
 })
 
+const selectedAccount = computed(() =>
+  accounts.value.find((acc: any) => acc.id == formBody.value.account_id),
+)
+const isPKR = computed(() => selectedAccount.value?.currency?.code === 'PKR')
+
+watch(
+  () => formBody.value.amount,
+  (newVal) => {
+    if (isPKR.value) {
+      formBody.value.original_amount = newVal
+    }
+  },
+)
+
+watch(
+  () => formBody.value.account_id,
+  () => {
+    if (isPKR.value) {
+      formBody.value.original_amount = formBody.value.amount
+    }
+  },
+)
+
 const getCurrencies = async () => {
   const response = await api.get('/api/currencies', {
     params: {
@@ -40,14 +63,18 @@ const getAccounts = async () => {
   })
   accounts.value = response.data.data.accounts
 }
-// const fetchData = async () => {
-//   const [accRes, currRes] = await Promise.all([
-//     api.get('/api/accounts'),
-//     api.get('/api/currencies', { params: { for: 'select' } })
-//   ])
-//   accounts.value = accRes.data.data.accounts.data
-//   currencies.value = currRes.data.data.currencies
-// }
+
+watch(
+  () => formBody.value.account_id,
+  (newAccountId) => {
+    if (newAccountId) {
+      const selectedAccount = accounts.value.find((acc: any) => acc.id == newAccountId)
+      if (selectedAccount && selectedAccount.currency_id) {
+        formBody.value.currency_id = selectedAccount.currency_id
+      }
+    }
+  },
+)
 
 const getProject = async () => {
   const response = await api.get(`/api/projects/${id}`)
@@ -137,6 +164,7 @@ onMounted(async () => {
                   label="Original Amount"
                   v-model="formBody.original_amount"
                   type="number"
+                  :disabled="isPKR"
                 />
               </div>
               <div class="col-md-6">

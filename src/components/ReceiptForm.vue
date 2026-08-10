@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import dayjs from 'dayjs'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
@@ -24,6 +24,28 @@ const formData = ref({
   original_amount: 0,
   amount: 0,
 })
+
+const isPKR = computed(
+  () => props.invoice?.currency?.code === 'PKR' || props.receipt?.project?.currency?.code === 'PKR',
+)
+
+watch(
+  () => formData.value.amount,
+  (newVal) => {
+    if (isPKR.value) {
+      formData.value.original_amount = newVal
+    }
+  },
+)
+
+watch(
+  () => props.invoice,
+  () => {
+    if (isPKR.value) {
+      formData.value.original_amount = formData.value.amount
+    }
+  },
+)
 
 const populateForm = () => {
   if (props.invoice) {
@@ -103,6 +125,7 @@ onMounted(() => {
           :label="`Original Amount (${props.invoice?.currency?.code || props.receipt?.project?.currency?.code || ''})`"
           v-model="formData.original_amount"
           type="number"
+          :disabled="isPKR"
         />
       </div>
       <div class="col-md-6">

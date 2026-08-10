@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
 
-const props = defineProps(['name', 'label', 'modelValue', 'type'])
+const props = defineProps(['name', 'label', 'modelValue', 'type', 'disabled'])
 const { name, label, modelValue, type } = toRefs(props)
 
 const emit = defineEmits(['update:modelValue'])
@@ -21,6 +21,7 @@ const updateValue = ($event: any) => {
       :name="name"
       :value="modelValue"
       :placeholder="label"
+      :disabled="disabled"
       @input="updateValue"
     />
   </div>

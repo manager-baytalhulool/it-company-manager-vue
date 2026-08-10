@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
@@ -21,6 +21,29 @@ const formBody = ref({
   original_amount: '',
 })
 
+const selectedInvoice = computed(() =>
+  invoices.value.find((inv: any) => inv.id == formBody.value.invoice_id),
+)
+const isPKR = computed(() => selectedInvoice.value?.currency?.code === 'PKR')
+
+watch(
+  () => formBody.value.amount,
+  (newVal) => {
+    if (isPKR.value) {
+      formBody.value.original_amount = newVal
+    }
+  },
+)
+
+watch(
+  () => formBody.value.invoice_id,
+  () => {
+    if (isPKR.value) {
+      formBody.value.original_amount = formBody.value.amount
+    }
+  },
+)
+
 const getProjects = async () => {
   const response = await api.get('/api/projects', {
     params: {
@@ -38,14 +61,23 @@ const getInvoices = async () => {
   })
   invoices.value = response.data.data.invoices
 }
-// const fetchData = async () => {
-//   const [accRes, currRes] = await Promise.all([
-//     api.get('/api/accounts'),
-//     api.get('/api/currencies', { params: { for: 'select' } })
-//   ])
-//   accounts.value = accRes.data.data.accounts.data
-//   currencies.value = currRes.data.data.currencies
-// }
+
+const filteredInvoices = computed(() => {
+  if (!formBody.value.project_id) return invoices.value
+  return invoices.value.filter((inv: any) => inv.project_id == formBody.value.project_id)
+})
+
+watch(
+  () => formBody.value.invoice_id,
+  (newInvoiceId) => {
+    if (newInvoiceId) {
+      const selectedInvoice = invoices.value.find((inv: any) => inv.id == newInvoiceId)
+      if (selectedInvoice && selectedInvoice.project_id) {
+        formBody.value.project_id = selectedInvoice.project_id
+      }
+    }
+  },
+)
 
 const getReceipt = async () => {
   const response = await api.get(`/api/receipts/${id}`)
@@ -105,7 +137,7 @@ onMounted(async () => {
               <div class="col-md-6">
                 <label class="form-label">Invoice</label>
                 <v-select
-                  :options="invoices"
+                  :options="filteredInvoices"
                   label="name"
                   :reduce="(option: any) => option.id"
                   v-model="formBody.invoice_id"
@@ -139,6 +171,7 @@ onMounted(async () => {
                   label="Original Amount"
                   v-model="formBody.original_amount"
                   type="number"
+                  :disabled="isPKR"
                 />
               </div>
             </div>

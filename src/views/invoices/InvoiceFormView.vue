@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/plugins/axios'
 import FormInput from '@/components/form/FormInput.vue'
@@ -12,7 +12,7 @@ const router = useRouter()
 const isEditMode = id ? true : false
 
 const projects = ref<BaseEntity[]>([])
-const currencies = ref<BaseEntity[]>([])
+const currencies = ref<any[]>([])
 const formBody = ref({
   project_id: '',
   currency_id: '',
@@ -23,6 +23,15 @@ const formBody = ref({
   status: '',
 })
 
+const getProjects = async () => {
+  const response = await api.get('/api/projects', {
+    params: {
+      for: 'select',
+    },
+  })
+  projects.value = response.data.data.projects
+}
+
 const getCurrencies = async () => {
   const response = await api.get('/api/currencies', {
     params: {
@@ -32,22 +41,17 @@ const getCurrencies = async () => {
   currencies.value = response.data.data.currencies
 }
 
-const getProjects = async () => {
-  const response = await api.get('/api/projects', {
-    params: {
-      for: 'select',
-    },
-  })
-  projects.value = response.data.data.projects
-}
-// const fetchData = async () => {
-//   const [accRes, currRes] = await Promise.all([
-//     api.get('/api/accounts'),
-//     api.get('/api/currencies', { params: { for: 'select' } })
-//   ])
-//   accounts.value = accRes.data.data.accounts.data
-//   currencies.value = currRes.data.data.currencies
-// }
+watch(
+  () => formBody.value.project_id,
+  (newProjectId) => {
+    if (newProjectId) {
+      const selectedProject = projects.value.find((p: any) => p.id == newProjectId)
+      if (selectedProject && selectedProject.currency_id) {
+        formBody.value.currency_id = selectedProject.currency_id
+      }
+    }
+  },
+)
 
 const getInvoice = async () => {
   const response = await api.get(`/api/invoices/${id}`)
@@ -55,6 +59,7 @@ const getInvoice = async () => {
   formBody.value = {
     project_id: invoice.project_id,
     currency_id: invoice.currency_id,
+
     date: invoice.date,
     due_date: invoice.due_date,
     description: invoice.description,
@@ -127,13 +132,9 @@ onMounted(async () => {
                   type="date"
                 />
               </div>
-              <div class="col-md-6">
-                <FormInput
-                  name="description"
-                  label="Description"
-                  v-model="formBody.description"
-                  type="text"
-                />
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" v-model="formBody.description" rows="3"></textarea>
               </div>
               <div class="col-md-6">
                 <FormInput name="amount" label="Amount" v-model="formBody.amount" type="number" />
