@@ -21,7 +21,7 @@ const columns: IColumn<ReceiptIndex>[] = [
   { label: 'Invoice', field: 'invoice_id' },
   { label: 'Date', field: 'date' },
   { label: 'Description', field: 'description' },
-  { label: 'Amount', field: 'amount' },
+  { label: 'Amount (PKR)', field: 'amount' },
   { label: 'Original Amount', field: 'original_amount' },
   { label: 'Actions', field: 'actions' },
 ]
@@ -103,8 +103,7 @@ onMounted(() => {
                 </template>
 
                 <template #cell-amount="{ row: receipt }">
-                  {{ Number(receipt.amount).toLocaleString() }}
-                  {{ receipt.project?.currency?.code }}
+                  {{ Number(receipt.amount).toLocaleString() }} PKR
                 </template>
 
                 <template #cell-original_amount="{ row: receipt }">

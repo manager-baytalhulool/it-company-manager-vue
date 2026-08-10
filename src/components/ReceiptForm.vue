@@ -100,7 +100,7 @@ onMounted(() => {
       <div class="col-md-6">
         <FormInput
           name="original_amount"
-          label="Original Amount"
+          :label="`Original Amount (${props.invoice?.currency?.code || props.receipt?.project?.currency?.code || ''})`"
           v-model="formData.original_amount"
           type="number"
         />

@@ -127,8 +127,7 @@ onMounted(() => {
                 </template>
 
                 <template #cell-amount="{ row: invoice }">
-                  {{ Number(invoice.amount).toLocaleString() }}
-                  <!-- {{ invoice.project?.account?.currency?.code }} -->
+                  {{ Number(invoice.amount).toLocaleString() }} {{ invoice.currency?.code }}
                 </template>
 
                 <template #cell-actions="{ row: invoice, rowIndex: i }">
@@ -143,13 +142,14 @@ onMounted(() => {
                     Edit
                   </RouterLink>
 
+                  <button
+                    v-if="invoice.status !== 'paid'"
+                    class="btn btn-primary btn-sm me-2"
+                    @click="handleReceivedClick(invoice, i)"
+                  >
+                    Receive
+                  </button>
                   <template v-if="invoice.status === 'pending'">
-                    <button
-                      class="btn btn-primary btn-sm me-2"
-                      @click="handleReceivedClick(invoice, i)"
-                    >
-                      Receive
-                    </button>
                     <button @click="handleDeleteClick(invoice)" class="btn btn-danger btn-sm">
                       Delete
                     </button>
