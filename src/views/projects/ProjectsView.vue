@@ -87,7 +87,9 @@ onMounted(() => {
                 :columns="columns"
               >
                 <template #cell-account_id="{ row: project }">
-                  {{ project.account?.name }}
+                  <RouterLink :to="`/accounts/${project.account?.id}`">
+                    {{ project.account?.name }}
+                  </RouterLink>
                 </template>
 
                 <template #cell-amount="{ row: account }">

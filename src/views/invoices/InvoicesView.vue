@@ -114,7 +114,9 @@ onMounted(() => {
                   </RouterLink>
                 </template>
                 <template #cell-project="{ row: invoice }">
-                  {{ invoice.project?.name }}
+                  <RouterLink :to="`/projects/${invoice.project?.id}`">
+                    {{ invoice.project?.name }}
+                  </RouterLink>
                 </template>
                 <template #cell-currency="{ row: invoice }">
                   {{ invoice.currency?.name }}

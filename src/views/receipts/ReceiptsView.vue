@@ -91,11 +91,15 @@ onMounted(() => {
                 </template>
 
                 <template #cell-project="{ row: receipt }">
-                  {{ receipt.project?.account?.name }}
+                  <RouterLink :to="`/accounts/${receipt.project?.account?.id}`">
+                    {{ receipt.project?.account?.name }}
+                  </RouterLink>
                 </template>
 
                 <template #cell-invoice_id="{ row: receipt }">
-                  {{ receipt.invoice_id }}
+                  <RouterLink :to="`/invoices/${receipt.invoice_id}`">
+                    {{ receipt.invoice_id }}
+                  </RouterLink>
                 </template>
 
                 <template #cell-date="{ row: receipt }">

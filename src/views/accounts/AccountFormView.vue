@@ -129,8 +129,9 @@ onMounted(async () => {
                   placeholder="Select Parent Company"
                 />
               </div>
-              <div class="col-md-6">
-                <FormInput name="address" label="Address" v-model="formBody.address" type="text" />
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" v-model="formBody.address" rows="3"></textarea>
               </div>
               <div class="col-md-6">
                 <FormInput

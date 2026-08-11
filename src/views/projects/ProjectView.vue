@@ -43,8 +43,8 @@ onMounted(async () => {
                       <td>{{ project.account?.name }}</td>
                     </tr>
                     <tr>
-                      <th>Currency ID</th>
-                      <td>{{ project.currency_id }}</td>
+                      <th>Currency Code</th>
+                      <td>{{ project.currency.code }}</td>
                     </tr>
                     <!-- <tr>
                       <th>Currency</th>
@@ -169,7 +169,6 @@ onMounted(async () => {
                       <th>#</th>
                       <th>Date</th>
                       <th>Project</th>
-                      <th>Description</th>
                       <th>Original Amount Earned</th>
                       <th>Amount in PKR</th>
                     </tr>
@@ -179,11 +178,32 @@ onMounted(async () => {
                       <th>{{ i + 1 }}</th>
                       <td>{{ receipt.date }}</td>
                       <td>{{ project?.name }}</td>
-                      <td>{{ receipt.description }}</td>
                       <td>{{ receipt.original_amount }} {{ project?.currency?.code }}</td>
                       <td>{{ receipt.amount }}</td>
                     </tr>
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="3" class="text-end">Total</th>
+                      <th>
+                        {{
+                          (project?.receipts || []).reduce(
+                            (sum: number, r: any) => sum + Number(r.original_amount),
+                            0,
+                          )
+                        }}
+                        {{ project?.currency?.code }}
+                      </th>
+                      <th>
+                        {{
+                          (project?.receipts || []).reduce(
+                            (sum: number, r: any) => sum + Number(r.amount),
+                            0,
+                          )
+                        }}
+                      </th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>
